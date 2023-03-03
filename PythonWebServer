@@ -1,105 +1,61 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import time
+import http.server
 import os
-from turtle import clear
+import socketserver
+import tkinter as tk
 
-from setuptools import setup
+PORT = 8080
+SERVER_ADDRESS = "DefaultPage.html"
+PASSWORD = "password"
 
-hostName = "localhost"
-serverPort = 8080
-PagesToPost = "pagePost.txt"
-ServerAddress = "DefaultPage.html"
-
-def Change_Default(ServerAddress):
-    try:
-        with open(ServerAddress, 'r') as f:
-            html_content = f.read()
-            return html_content
-    except:
-        return "File Not Found"
-
-def SaveInPagePost(ServerAddress):
-    with open(PagesToPost,'a') as f:
-        f.write("\n" + ServerAddress)
-
-def clearTerm():
-    time.sleep(0.5)
-    os.system('cls' if os.name == 'nt' else 'clear')
-    
-def OpenPagePost():
-    with open(PagesToPost, 'r') as f:
-        lines = f.readlines()
-        AmountOfLines = len(lines)
-        mapped_array = list(map(str.strip, lines))
-        print("Mapped array", mapped_array)
-        print("Amount of Lines", AmountOfLines)
-        print()
-        print(f'{"Pages To Post":^30s}')
-        print(lines)
-        print()
-        print(AmountOfLines)
-        return mapped_array, AmountOfLines
-        
-def chooseSite():  
-    VariablesToCut = OpenPagePost()
-    mapped_array , AmountOfLines = VariablesToCut
-    print("Mapped array", mapped_array)
-    print("Amount of Lines", AmountOfLines)
-    selected_index = int(input("Enter the index of the page you want to select: "))
-    if selected_index > AmountOfLines-1:
-        print("Invalid index, enter a value between 0 and ", AmountOfLines-1)
-        clearTerm()
-        chooseSite()
-    else:
-        clearTerm()
-        selected_page = mapped_array[selected_index]
-        ServerAddress = selected_page
-        return ServerAddress
-            
-def Setup():
-    Option = input("A. Select a html page from the pagePost file\n" + "B. Enter a new html path \n"+ "C. View saved pages to post\n"+ "D. Kill Web-Server\n" +"Enter A, B, C or D >").upper()
-    if Option == "A":
-        clearTerm()
-        ServerAddress = chooseSite()
-        Change_Default(ServerAddress)
-    if Option == "B":
-        ServerAddress = input("Enter the path to your html file > ")
-        SaveInPagePost(ServerAddress)
-        clearTerm()
-        Change_Default(ServerAddress)
-    if Option == "C":
-        clearTerm()
-        print(OpenPagePost())
-        Setup()
-    if Option == "D":
-        webServer.server_close()
-        print("Server Down")
-        clearTerm()
-        quit()
-    else:
-        clearTerm()
-        Setup()
-            
-class MyServer(BaseHTTPRequestHandler):
-    def do_GET(self):
-        html_content = Change_Default(ServerAddress)
-        if html_content != "File Not Found":
-            html_content = Setup()
-        else:
-            html_content = Setup()
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
+class AuthHandler(http.server.SimpleHTTPRequestHandler):
+    def do_AUTHHEAD(self):
+        self.send_response(401)
+        self.send_header('WWW-Authenticate', 'Basic realm=\"Test\"')
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(bytes(html_content, "utf-8"))
-        self.wfile.write(bytes("</body></html>", "utf-8"))
 
-if __name__ == "__main__":        
-    webServer = HTTPServer((hostName, serverPort), MyServer)
-    clearTerm()
-    print("Server Up http://%s:%s" % (hostName, serverPort))
-    try:
-        webServer.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    webServer.server_close()
-    print("Server Down")
+    def do_GET(self):
+        if self.headers.get('Authorization') == None:
+            self.do_AUTHHEAD()
+            self.wfile.write(b'no auth header received')
+        elif self.headers.get('Authorization') == 'Basic ' + bytes(PASSWORD, 'utf-8').b64encode(bytes(self.headers.get('Authorization').split()[1], 'utf-8')).decode('utf-8'):
+            http.server.SimpleHTTPRequestHandler.do_GET(self)
+        else:
+            self.do_AUTHHEAD()
+            self.wfile.write(b'not authenticated')
+
+class ServerThread(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
+
+def start_server():
+    Handler = AuthHandler
+    httpd = ServerThread(('localhost', PORT), Handler)
+    httpd.serve_forever()
+
+def stop_server():
+    os._exit(0)
+
+def on_login():
+    if password.get() == PASSWORD:
+        login_window.destroy()
+        start_server()
+    else:
+        status_label.config(text="Invalid password")
+
+login_window = tk.Tk()
+login_window.geometry("300x200")
+login_window.title("Login")
+
+password_label = tk.Label(login_window, text="Password:")
+password_label.pack()
+
+password = tk.Entry(login_window, show="*")
+password.pack()
+
+status_label = tk.Label(login_window, text="")
+status_label.pack()
+
+login_button = tk.Button(login_window, text="Login", command=on_login)
+login_button.pack()
+
+login_window.mainloop()
