@@ -1,15 +1,29 @@
 import sqlite3
-import datetime
+from datetime import datetime
+import os
 from flask import Flask, request, redirect, render_template, session, url_for
 
-app = Flask(__name__)
-app.secret_key = 'supersecretkey'
-app = Flask(__name__, template_folder='/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite')
+secret_key = os.urandom(24).hex()
+print(secret_key)
 
+app = Flask(__name__, template_folder='/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite')
+app.secret_key = secret_key
 
 # database initialization
 conn = sqlite3.connect('database.db')
 c = conn.cursor()
+c.execute("SELECT * FROM Staff")
+staff_data = c.fetchall()
+print(staff_data)
+c.execute("SELECT * FROM Admin")
+Admin_data = c.fetchall()
+print(Admin_data)
+c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+table_names = [row[0] for row in c.fetchall()]
+for table_name in table_names:
+    c.execute(f"SELECT * FROM {table_name}")
+    table_data = c.fetchall()
+    print(f"{table_name} data: {table_data}")
 
 c.execute('CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, last_login TEXT, last_login_ip TEXT, \
            login_attempts INTEGER DEFAULT 0, successful_logins INTEGER DEFAULT 0, failed_logins INTEGER DEFAULT 0, \
@@ -39,41 +53,64 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
+    email = request.form['email']
     password = request.form['password']
-    user = c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password)).fetchone()
+
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+
+    # Check if the user exists in the staff table
+    user = c.execute("SELECT * FROM Staff WHERE email = ? AND password = ?", (email, password)).fetchone()
 
     if user:
-        session['username'] = user[0]
-        session['is_staff'] = user[7]
+        session['email'] = user[2]
+        session['is_staff'] = True
 
         now = datetime.now()
         ip = request.remote_addr
         c.execute("UPDATE users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
-                   login_attempts = 0 WHERE username = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, username))
+                   login_attempts = 0 WHERE email = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
         conn.commit()
+        conn.close()
 
-        if user[7]:
-            return redirect(url_for('staff'))
-        else:
-            return redirect(url_for('home'))
+        return redirect(url_for('staff'))
     else:
-        session.pop('username', None)
-        session.pop('is_staff', None)
+        # Check if the user exists in the users table
+        user = c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (email, password)).fetchone()
 
-        user = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
         if user:
-            c.execute("UPDATE users SET login_attempts = login_attempts + 1, failed_logins = failed_logins + 1 \
-                       WHERE username = ?", (username,))
-            if user[5] + 1 >= 5:
-                return redirect(url_for('reset_password', username=username))
-        else:
-            c.execute("INSERT INTO users (username, password, login_attempts, failed_logins) \
-                       VALUES (?, ?, 1, 1)", (username, password))
+            session['email'] = user[0]
+            session['is_staff'] = user[7]
 
-        conn.commit()
-        app.app_context().push()
-        return render_template('index.html', error='Invalid username or password')
+            now = datetime.now()
+            ip = request.remote_addr
+            c.execute("UPDATE users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
+                       login_attempts = 0 WHERE username = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
+            conn.commit()
+            conn.close()
+
+            if user[7]:
+                return redirect(url_for('staff'))
+            else:
+                return redirect(url_for('home'))
+        else:
+            session.pop('email', None)
+            session.pop('is_staff', None)
+
+            # Check if the user exists in the staff table
+            user = c.execute("SELECT * FROM Staff WHERE email = ?", (email,)).fetchone()
+            if user:
+                c.execute("UPDATE users SET login_attempts = login_attempts + 1, failed_logins = failed_logins + 1 \
+                           WHERE email = ?", (email,))
+                if user[5] + 1 >= 5:
+                    return redirect(url_for('reset_password', email=email))
+            else:
+                c.execute("INSERT INTO users (username, password, login_attempts, failed_logins) \
+                           VALUES (?, ?, 1, 1)", (email, password))
+            conn.commit()
+            conn.close()
+            app.app_context().push()
+            return render_template('index.html', error='Invalid email or password')
 
 @app.route('/home')
 def home():
@@ -96,4 +133,3 @@ def staff():
         return redirect(url_for('index'))
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
-
