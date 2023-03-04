@@ -1,61 +1,93 @@
-import http.server
-import os
-import socketserver
-import tkinter as tk
+import sqlite3
+from flask import Flask, request, redirect, render_template, session, url_for
 
-PORT = 8080
-SERVER_ADDRESS = "DefaultPage.html"
-PASSWORD = "password"
+app = Flask(__name__)
+app.secret_key = 'supersecretkey'
 
-class AuthHandler(http.server.SimpleHTTPRequestHandler):
-    def do_AUTHHEAD(self):
-        self.send_response(401)
-        self.send_header('WWW-Authenticate', 'Basic realm=\"Test\"')
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
+# database initialization
+conn = sqlite3.connect('database.db')
+c = conn.cursor()
 
-    def do_GET(self):
-        if self.headers.get('Authorization') == None:
-            self.do_AUTHHEAD()
-            self.wfile.write(b'no auth header received')
-        elif self.headers.get('Authorization') == 'Basic ' + bytes(PASSWORD, 'utf-8').b64encode(bytes(self.headers.get('Authorization').split()[1], 'utf-8')).decode('utf-8'):
-            http.server.SimpleHTTPRequestHandler.do_GET(self)
+c.execute('CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, last_login TEXT, last_login_ip TEXT, \
+           login_attempts INTEGER DEFAULT 0, successful_logins INTEGER DEFAULT 0, failed_logins INTEGER DEFAULT 0, \
+           is_staff INTEGER DEFAULT 0, is_admin INTEGER DEFAULT 0)')
+
+# create an admin user if it doesn't exist
+admin_user = c.execute("SELECT * FROM users WHERE username = 'admin'").fetchone()
+if not admin_user:
+    c.execute("INSERT INTO users (username, password, is_admin) VALUES ('admin', 'password', 1)")
+
+# create a staff user if it doesn't exist
+staff_user = c.execute("SELECT * FROM users WHERE username = 'staff'").fetchone()
+if not staff_user:
+    c.execute("INSERT INTO users (username, password, is_staff) VALUES ('staff', 'password', 1)")
+
+conn.commit()
+
+@app.route('/')
+def index():
+    if 'username' in session:
+        if session['is_staff']:
+            return redirect(url_for('staff'))
         else:
-            self.do_AUTHHEAD()
-            self.wfile.write(b'not authenticated')
-
-class ServerThread(socketserver.ThreadingMixIn, socketserver.TCPServer):
-    pass
-
-def start_server():
-    Handler = AuthHandler
-    httpd = ServerThread(('localhost', PORT), Handler)
-    httpd.serve_forever()
-
-def stop_server():
-    os._exit(0)
-
-def on_login():
-    if password.get() == PASSWORD:
-        login_window.destroy()
-        start_server()
+            return redirect(url_for('home'))
     else:
-        status_label.config(text="Invalid password")
+        return render_template('index.html')
 
-login_window = tk.Tk()
-login_window.geometry("300x200")
-login_window.title("Login")
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    user = c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password)).fetchone()
 
-password_label = tk.Label(login_window, text="Password:")
-password_label.pack()
+    if user:
+        session['username'] = user[0]
+        session['is_staff'] = user[7]
 
-password = tk.Entry(login_window, show="*")
-password.pack()
+        now = datetime.now()
+        ip = request.remote_addr
+        c.execute("UPDATE users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
+                   login_attempts = 0 WHERE username = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, username))
+        conn.commit()
 
-status_label = tk.Label(login_window, text="")
-status_label.pack()
+        if user[7]:
+            return redirect(url_for('staff'))
+        else:
+            return redirect(url_for('home'))
+    else:
+        session.pop('username', None)
+        session.pop('is_staff', None)
 
-login_button = tk.Button(login_window, text="Login", command=on_login)
-login_button.pack()
+        user = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+        if user:
+            c.execute("UPDATE users SET login_attempts = login_attempts + 1, failed_logins = failed_logins + 1 \
+                       WHERE username = ?", (username,))
+            if user[5] + 1 >= 5:
+                return redirect(url_for('reset_password', username=username))
+        else:
+            c.execute("INSERT INTO users (username, password, login_attempts, failed_logins) \
+                       VALUES (?, ?, 1, 1)", (username, password))
 
-login_window.mainloop()
+        conn.commit()
+
+        return render_template('index.html', error='Invalid username or password')
+
+@app.route('/home')
+def home():
+    if 'username' in session and not session['is_staff']:
+        username = session['username']
+        c.execute("UPDATE users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
+        conn.commit()
+        return render_template('home.html', username=username)
+    else:
+        return redirect(url_for('index'))
+
+@app.route('/staff')
+def staff():
+    if 'username' in session and session['is_staff']:
+        username = session['username']
+        c.execute("UPDATE users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
+        conn.commit()
+        return render_template('staff.html', username=username)
+    else:
+        return redirect(url_for('index'))
