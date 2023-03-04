@@ -11,6 +11,9 @@ https://github.com/TheCyberForceTeam - CI5450_ALL_TY13_22 - Cyber Group Work - P
 View the full document of what we have to do here - https://docs.google.com/document/d/1Z0D9u-bFFbjJ0FQu-HYUcbuyqvMbEu-wcGJ8RNaeVow/edit?usp=sharing
 
 
+When you clone this script onto your Ubuntu system, 
+please modify the "coffee.service" script to include 
+
 Goals
 Make an Ubuntu WebServer
 Each member of the group should have to take responsibility for a week for overlooking every task and launching the web server for a week and ensure that every week that the web server image is backed up to a shared group space on BOX or OneDrive.

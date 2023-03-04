@@ -1,0 +1,11 @@
+[Unit]
+Description=Coffee Shop Webserver written in python with flask
+After=network.target
+
+[Service]
+User=your_username
+WorkingDirectory=/path/to/script/directory
+ExecStart=/usr/bin/env bash /path/to/script.sh
+
+[Install]
+WantedBy=multi-user.target
