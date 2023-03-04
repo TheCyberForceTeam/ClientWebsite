@@ -59,6 +59,10 @@
 			<input type="submit" value="Submit">
 		</form>
 	</div>
+	<div id="cookie-consent" style="display: none;">
+		<p>By using this website, you agree to our use of cookies to remember your last entry details.</p>
+		<button id="accept-cookies">Accept Cookies</button>
+	</div>
 	<script>
 		const showPasswordCheckbox = document.getElementById("show-password");
 		const passwordInput = document.getElementById("password");
@@ -70,6 +74,20 @@
 				passwordInput.setAttribute("type", "password");
 			}
 		});
+
+		window.onload = function() {
+			const consentPopup = document.getElementById("cookie-consent");
+			const acceptBtn = document.getElementById("accept-cookies");
+
+			if (!localStorage.getItem("cookiesAccepted")) {
+				consentPopup.style.display = "block";
+			}
+
+			acceptBtn.addEventListener("click", function() {
+				localStorage.setItem("cookiesAccepted", true);
+				consentPopup.style.display = "none";
+			});
+		}
 	</script>
 </body>
 </html>
