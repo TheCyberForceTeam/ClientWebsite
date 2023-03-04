@@ -24,21 +24,6 @@ for table_name in table_names:
     c.execute(f"SELECT * FROM {table_name}")
     table_data = c.fetchall()
     print(f"{table_name} data: {table_data}")
-
-c.execute('CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, last_login TEXT, last_login_ip TEXT, \
-           login_attempts INTEGER DEFAULT 0, successful_logins INTEGER DEFAULT 0, failed_logins INTEGER DEFAULT 0, \
-           is_staff INTEGER DEFAULT 0, is_admin INTEGER DEFAULT 0)')
-
-# create an admin user if it doesn't exist
-admin_user = c.execute("SELECT * FROM users WHERE username = 'admin'").fetchone()
-if not admin_user:
-    c.execute("INSERT INTO users (username, password, is_admin) VALUES ('admin', 'password', 1)")
-
-# create a staff user if it doesn't exist
-staff_user = c.execute("SELECT * FROM users WHERE username = 'staff'").fetchone()
-if not staff_user:
-    c.execute("INSERT INTO users (username, password, is_staff) VALUES ('staff', 'password', 1)")
-
 conn.commit()
 
 @app.route('/')
@@ -69,7 +54,7 @@ def login():
         now = datetime.now()
         ip = request.remote_addr
         c.execute("UPDATE users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
-                   login_attempts = 0 WHERE email = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
+                   total_login_attempts = 0 WHERE email = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
         conn.commit()
         conn.close()
 
@@ -85,7 +70,7 @@ def login():
             now = datetime.now()
             ip = request.remote_addr
             c.execute("UPDATE users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
-                       login_attempts = 0 WHERE username = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
+                       total_login_attempts = 0 WHERE username = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
             conn.commit()
             conn.close()
 
@@ -100,12 +85,12 @@ def login():
             # Check if the user exists in the staff table
             user = c.execute("SELECT * FROM Staff WHERE email = ?", (email,)).fetchone()
             if user:
-                c.execute("UPDATE users SET login_attempts = login_attempts + 1, failed_logins = failed_logins + 1 \
+                c.execute("UPDATE users SET total_login_attempts = total_login_attempts + 1, failed_logins = failed_logins + 1 \
                            WHERE email = ?", (email,))
                 if user[5] + 1 >= 5:
                     return redirect(url_for('reset_password', email=email))
             else:
-                c.execute("INSERT INTO users (username, password, login_attempts, failed_logins) \
+                c.execute("INSERT INTO users (username, password, total_login_attempts, failed_logins) \
                            VALUES (?, ?, 1, 1)", (email, password))
             conn.commit()
             conn.close()

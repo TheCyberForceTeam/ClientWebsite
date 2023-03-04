@@ -1,4 +1,6 @@
 import sqlite3
+from datetime import datetime
+from flask import Flask, request
 
 # create a connection to the database
 conn = sqlite3.connect('database.db')
@@ -16,6 +18,12 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Admin
                 (email text, username text, password text, successful_logins integer,
                 unsuccessful_logins integer, total_login_attempts integer, last_login_ip_address text,
                 last_login_date text)''')
+
+cur.execute('''CREATE TABLE IF NOT EXISTS users
+                (username text, password text, email text, last_login text,
+                 last_login_ip text, unsuccessful_logins integer,
+                 successful_logins integer, total_login_attempts integer)''')
+
 
 # insert data into the tables
 staff_data = ('Staff@coffee.shop', 'Staff', 'SuperSecretPassword', 0, 0, 0, '', '')
