@@ -4,6 +4,8 @@ from flask import Flask, request, redirect, render_template, session, url_for
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
+app = Flask(__name__, template_folder='/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite')
+
 
 # database initialization
 conn = sqlite3.connect('database.db')
