@@ -70,7 +70,7 @@ def login():
                        VALUES (?, ?, 1, 1)", (username, password))
 
         conn.commit()
-
+        app.app_context().push()
         return render_template('index.html', error='Invalid username or password')
 
 @app.route('/home')
