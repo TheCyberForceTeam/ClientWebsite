@@ -32,7 +32,7 @@ def index():
         if session['is_staff']:
             return redirect(url_for('staff'))
         else:
-            return redirect(url_for('home'))
+            return redirect(url_for('home.'))
     else:
         return render_template('index.html')
 
@@ -53,7 +53,7 @@ def login():
 
         now = datetime.now()
         ip = request.remote_addr
-        c.execute("UPDATE users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
+        c.execute("UPDATE Staff SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
                    total_login_attempts = 0 WHERE email = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
         conn.commit()
         conn.close()
@@ -85,12 +85,12 @@ def login():
             # Check if the user exists in the staff table
             user = c.execute("SELECT * FROM Staff WHERE email = ?", (email,)).fetchone()
             if user:
-                c.execute("UPDATE users SET total_login_attempts = total_login_attempts + 1, failed_logins = failed_logins + 1 \
+                c.execute("UPDATE Staff SET total_login_attempts = total_login_attempts + 1, unsuccessful_logins = unsuccessful_logins + 1 \
                            WHERE email = ?", (email,))
                 if user[5] + 1 >= 5:
                     return redirect(url_for('reset_password', email=email))
             else:
-                c.execute("INSERT INTO users (username, password, total_login_attempts, failed_logins) \
+                c.execute("INSERT INTO users (username, password, total_login_attempts, unsuccessful_logins) \
                            VALUES (?, ?, 1, 1)", (email, password))
             conn.commit()
             conn.close()
@@ -103,7 +103,7 @@ def home():
         username = session['username']
         c.execute("UPDATE users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
         conn.commit()
-        return render_template('home.html', username=username)
+        return render_template('home', username=username)
     else:
         return redirect(url_for('index'))
 
