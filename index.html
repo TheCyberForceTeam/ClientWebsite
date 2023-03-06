@@ -5,6 +5,113 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		nav {
+			background-color: red;
+			position: fixed;
+			top: 0;
+			width: 100%;
+			z-index: 99;
+		  }
+		  
+		  .menu-toggle {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+			width: 100%;
+			position: relative;
+		  }
+		  
+		  .menu-toggle input {
+			display: none;
+		  }
+		  
+		  .menu-toggle span {
+			display: block;
+			height: 3px;
+			width: 25px;
+			margin: 5px 0;
+			background-color: white;
+			transition: all 0.3s ease-in-out;
+		  }
+		  
+		  .menu-toggle ul {
+			display: flex;
+			flex-direction: column;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			background-color: red;
+			visibility: hidden;
+			opacity: 0;
+			transition: visibility 0s, opacity 0.3s ease-in-out;
+		  }
+		  
+		  .menu-toggle ul li {
+			margin: 0;
+		  }
+		  
+		  .menu-toggle a {
+			color: white;
+			display: block;
+			padding: 1rem;
+			text-align: center;
+		  }
+		  
+		  .menu-toggle input:checked ~ ul {
+			visibility: visible;
+			opacity: 1;
+		  }
+		  
+		  .menu-toggle input:checked ~ span:nth-of-type(1) {
+			transform: translateY(9px) rotate(45deg);
+		  }
+		  
+		  .menu-toggle input:checked ~ span:nth-of-type(2) {
+			opacity: 0;
+		  }
+		  
+		  .menu-toggle input:checked ~ span:nth-of-type(3) {
+			transform: translateY(-9px) rotate(-45deg);
+		  }		  
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			font-size: 19px;
+			line-height: 1.6;
+		}
+
+		header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.main {
+			align-content: center;
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-bottom: 1rem;
+			padding: 1rem;
+			border: 1px solid #ccc;
+			border-radius: 0.5rem;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
 		.container {
 			display: flex;
 			flex-direction: column;
@@ -12,12 +119,12 @@
 			justify-content: center;
 			height: 100vh;
 		}
-		
+
 		h1 {
 			font-size: 2.5rem;
 			margin-bottom: 1rem;
 		}
-		
+
 		form {
 			display: flex;
 			flex-direction: column;
@@ -28,14 +135,15 @@
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translate(-50%, 10%);
+			transform: translate(-50%, 80%);
 			opacity: 0;
 			transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 			background-color: white;
 			z-index: 1;
 		}
-		
-		input[type="email"], input[type="password"] {
+
+		input[type="email"],
+		input[type="password"] {
 			padding: 0.5rem;
 			margin-bottom: 1rem;
 			border-radius: 0.5rem;
@@ -43,25 +151,81 @@
 			width: 100%;
 			box-sizing: border-box;
 		}
-		
+
 		input[type="checkbox"] {
 			margin-bottom: 1rem;
 		}
+		
+		/* Added CSS for iFrames */
+		.product {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-bottom: 1rem;
+			padding: 1rem;
+			border: 1px solid #ccc;
+			border-radius: 0.5rem;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		.product li {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin-bottom: 0.5rem;
+		}
+
+		.product li iframe {
+			margin-right: 1rem;
+		}
+
+		#cookie-consent {
+			background-color: red;
+			bottom: 0;
+			color: white;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: fixed;
+			width: 100%;
+			padding: 0.5rem;
+			z-index: 99;
+		  }
+		  
+		  #cookie-consent p {
+			margin: 0;
+			padding: 0.5rem;
+		  }
+		  
+		  #cookie-consent button {
+			margin-left: 1rem;
+			padding: 0.5rem 1rem;
+		  }
+		  
 	</style>
 </head>
 <body>
 	<nav>
-		<ul>
+		<div class="menu-toggle">
+		  <input type="checkbox" />
+		  <span></span>
+		  <span></span>
+		  <span></span>
+		  <ul class="menu">
 			<li><a href="home.html">Home</a></li>
 			<li><a href="News.html">News</a></li>
 			<li><a href="Order.html">Order</a></li>
 			<li><a href="Legal.html">Legal Stuff</a></li>
 			<li id="staff"><a href="Staff.html">Staff</a></li>
 			<li><button type="button" id="login-button">Login</button></li>
-		</ul>
-	</nav>
+		  </ul>
+		</div>
+	  </nav>	  
 	<div class="container">
+		<iframe src ="images/main header.jfif">Coffee Beans</iframe>
 		<h1>Coffee Shop</h1>
+		<p id="message">Login to continue, if your account is not found, it will be created</p>
 		<div class="login-container">
 		<form method="post" action="/login">
 			<label for="email">Email:</label>
@@ -79,6 +243,59 @@
 		<p>By using this website, you agree to our use of cookies to remember your last entry details.</p>
 		<button id="accept-cookies">Accept Cookies</button>
 	</div>
+	<main>
+        <section class="hero">
+            <h2>Coffee Shop</h2>
+            <p>You're in to experience the best coffee in town!</p>
+            <button>Order Now</button>
+        </section>
+        <section class="featured">
+            <h2>Featured Products</h2>
+            <div class="product">
+                <h3>Hot Coffees</h3>
+                <ul>
+                    <li>Regular Coffee - £2.50</li>
+                    <li>Espresso - £3.00</li>
+                    <li>Americano - £3.50</li>
+                    <li>Cappuccino - £4.00</li>
+                    <li>Latte - £4.50</li>
+                    <li>Mocha - £5.00</li>
+                    <li>Macchiato - £4.00</li>
+                </ul>
+            </div>
+            <div class="product">
+                <h3>Cold Coffees</h3>
+                <ul>
+                    <li>Iced Coffee - £2.50</li>
+                    <li>Cold Brew - £4.00</li>
+                    <li>Nitro Cold Brew - £4.50</li>
+                    <li>Iced Latte - £5.00</li>
+                    <li>Iced Mocha - £5.50</li>
+                    <li>Iced Caramel Macchiato - £5.50</li>
+                    <li>Frappe - £6.00</li>
+                </ul>
+            </div>
+            <div class="product">
+                <h3>Bagels</h3>
+                <ul>
+                    <li>Chicken Bagel - £4.50</li>
+                    <li>Beef Bagel - £5.00</li>
+                    <li>Vegetarian Bagel - £4.00</li>
+                    <li>Plant-Based Bagel - £4.50</li>
+                </ul>
+            </div>
+            <div class="product">
+                <h3>Milkshakes</h3>
+                <ul>
+                    <li>Vanilla Milkshake - £4.00</li>
+                    <li>Chocolate Milkshake - £4.50</li>
+                    <li>Strawberry Milkshake - £4.50</li>
+                    <li>Caramel Milkshake - £5.00</li>
+                    <li>Mint Chocolate Milkshake - £5.50</li>
+                </ul>
+            </div>
+        </section>
+    </main>
 </body>
 <script>
 	const showPasswordCheckbox = document.getElementById("show-password");
@@ -127,4 +344,7 @@
 	}
 	
 </script>
+<footer>
+	<p>&copy; 2023 My Coffee Shop. All Rights Reserved.</p>
+</footer>
 </html>
