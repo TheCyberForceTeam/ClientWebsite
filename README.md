@@ -41,15 +41,10 @@ Contributions are welcome! Feel free to submit a pull request or raise an issue.
 Main Tasks 
 
 
-News/Media page (Made up news about the coffee shop, include photoshopped coffee shop stuff in a twitter / instagram way)
 Staff Page (Only appears on staff login) should show chat box of messages from clients , Should show database in html of customer purchases , ip logged, failed login attempts, option to manually send a reset password link for other staff and options to see what’s on the store and remove options 
-Main backend / front end html page for login and authentication 
-Shop page to view store catalog (fake coffee and stuff) with add to basket and a booking page
+Staff page to view accounts set up to the NCSC , view emails sent, successful and unsuccessful logins
 Database made to store login details for admin and staff, include customer ips , emails, frequency of logins
-Analysis script, to store log of logins
-We should allow these to be stored as a csv, 
 We should include charts, abdullahs design for ethical hacking was pretty good as an idea for staff to be able to access, we should be able to see three charts:
 password strengths vs number of users (colour coded by their security levels)
 Number of failed logins vs email account (colour coded by highest number)
 Most sold item vs location ( sorted by highest to lowest)
-And save them as a pdf

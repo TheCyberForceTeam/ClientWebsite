@@ -1,5 +1,5 @@
 [Unit]
-Description=Coffee Shop Webserver written in python with flask
+Description=A Webserver for the Norwood Child Safety Councillors (NCSC)
 After=network.target
 
 [Service]
