@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title id="Page-Title">Coffee Shop</title>
+	<title>Norwood Child Safety Council</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
@@ -207,11 +207,6 @@
 </head>
 <body>
 	<nav>
-		<div class="menu-toggle">
-		  <input type="checkbox" />
-		  <span></span>
-		  <span></span>
-		  <span></span>
 		  <ul class="menu">
 			<li><a href="index.html">Home</a></li>
 			<li><a href="News.html">News</a></li>
@@ -223,8 +218,8 @@
 		</div>
 	  </nav>	  
 	<div class="container">
-		<iframe src ="images/main header.jfif">Coffee Beans</iframe>
-		<h1>Coffee Shop</h1>
+		<iframe src ="images/main header.jfif">The Norwood Child Safety Council</iframe>
+		<h1>The Norwood Child Safety Council</h1>
 		<p id="message">Login to continue, if your account is not found, it will be created</p>
 		<div class="login-container">
 		<form method="post" action="/login">
@@ -245,57 +240,72 @@
 	</div>
 	<main>
         <section class="hero">
-            <h2>Coffee Shop</h2>
-            <p>You're in to experience the best coffee in town!</p>
-            <button>Order Now</button>
+            <h1>The Norwood Child Safety Council</h1>
+            <p>Get in touch with us</p>
+            <button id="email-form">Click here</button>
         </section>
         <section class="featured">
-            <h2>Featured Products</h2>
+            <h2>News</h2>
             <div class="product">
-                <h3>Hot Coffees</h3>
+                <h3>Article 1</h3>
                 <ul>
-                    <li>Regular Coffee - £2.50</li>
-                    <li>Espresso - £3.00</li>
-                    <li>Americano - £3.50</li>
-                    <li>Cappuccino - £4.00</li>
-                    <li>Latte - £4.50</li>
-                    <li>Mocha - £5.00</li>
-                    <li>Macchiato - £4.00</li>
+                    <li>Donation of $10,000 received from local business</li>
+					<li>New safety video released for parents and children</li>
+					<li>Volunteers needed for upcoming fundraiser event</li>
                 </ul>
             </div>
             <div class="product">
-                <h3>Cold Coffees</h3>
+                <h3>Our Work</h3>
                 <ul>
-                    <li>Iced Coffee - £2.50</li>
-                    <li>Cold Brew - £4.00</li>
-                    <li>Nitro Cold Brew - £4.50</li>
-                    <li>Iced Latte - £5.00</li>
-                    <li>Iced Mocha - £5.50</li>
-                    <li>Iced Caramel Macchiato - £5.50</li>
-                    <li>Frappe - £6.00</li>
+                    <li>Providing educational resources for parents and children</li>
+					<li>Partnering with local schools to teach safety</li>
+					<li>Supporting families affected by child abuse</li>
                 </ul>
             </div>
             <div class="product">
-                <h3>Bagels</h3>
+                <h3>Social Media</h3>
                 <ul>
-                    <li>Chicken Bagel - £4.50</li>
-                    <li>Beef Bagel - £5.00</li>
-                    <li>Vegetarian Bagel - £4.00</li>
-                    <li>Plant-Based Bagel - £4.50</li>
+                    <li>Follow us on <a href="#">Facebook</a></li>
+					<li>Follow us on <a href="#">Twitter</a></li>
+					<li>Follow us on <a href="#">Instagram</a></li>
                 </ul>
             </div>
             <div class="product">
-                <h3>Milkshakes</h3>
+                <h3>Support Our Work</h3>
                 <ul>
-                    <li>Vanilla Milkshake - £4.00</li>
-                    <li>Chocolate Milkshake - £4.50</li>
-                    <li>Strawberry Milkshake - £4.50</li>
-                    <li>Caramel Milkshake - £5.00</li>
-                    <li>Mint Chocolate Milkshake - £5.50</li>
+                    <li>Donate to our organization</li>
+					<li>Become a volunteer</li>
+					<li>Partner with us</li>
                 </ul>
             </div>
         </section>
     </main>
+
+	<form id="login-form">
+		<label for="email">Email</label>
+		<input type="email" id="email" name="email" required>
+
+		<label for="password">Password</label>
+		<input type="password" id="password" name="password" required>
+
+		<input type="checkbox" id="remember-me" name="remember-me">
+		<label for="remember-me">Remember me</label>
+
+		<button type="submit">Login</button>
+	</form>
+
+	<div id="email-modal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<form action="mailto:thecyberforceteam@gmail.com" method="post" enctype="text/plain">
+				<label for="email-body">Body</label>
+				<textarea id="email-body" name="email-body"></textarea>
+				<button type="submit">Send</button>
+			</form>
+		</div>
+	</div>
+
+	<p id="message" style="display: none">Login to continue, if your account doesn't exist, it will be created</p>
 </body>
 <script>
 	const showPasswordCheckbox = document.getElementById("show-password");
@@ -345,6 +355,6 @@
 	
 </script>
 <footer>
-	<p>&copy; 2023 My Coffee Shop. All Rights Reserved.</p>
+	<p>&copy; 2023 by CyberForceTeam. All Rights Reserved.</p>
 </footer>
 </html>
