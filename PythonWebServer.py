@@ -7,12 +7,10 @@ secret_key = os.urandom(24).hex()
 print(secret_key)
 
 app = Flask(__name__, template_folder='/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite')
-SitesFolder = '/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite/Sites'
-DatabaseFolder = '/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite/NCSC Database'
 app.secret_key = secret_key
 
 # database initialization
-conn = sqlite3.connect(f'{DatabaseFolder}'+'database.db')
+conn = sqlite3.connect('database.db')
 c = conn.cursor()
 c.execute("SELECT * FROM Staff")
 staff_data = c.fetchall()
@@ -43,7 +41,7 @@ def login():
     email = request.form['email']
     password = request.form['password']
 
-    conn = sqlite3.connect(f'{SitesFolder}'+'database.db')
+    conn = sqlite3.connect('database.db')
     c = conn.cursor()
 
     # Check if the user exists in the staff table

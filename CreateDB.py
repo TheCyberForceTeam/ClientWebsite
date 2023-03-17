@@ -22,12 +22,12 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Admin
 cur.execute('''CREATE TABLE IF NOT EXISTS users
                 (username text, password text, email text, last_login text,
                  last_login_ip text, unsuccessful_logins integer,
-                 successful_logins integer, total_login_attempts integer)''')
+                 successful_logins integer, total_login_attempts integer, address text)''')
 
 
 # insert data into the tables
-staff_data = ('Staff@coffee.shop', 'Staff', 'SuperSecretPassword', 0, 0, 0, '', '')
-admin_data = ('Admin@coffee.shop', 'Admin', 'SuperSecretPassword2', 0, 0, 0, '', '')
+staff_data = ('Staff@ncsc.com', 'Staff', 'SuperSecretPassword', 0, 0, 0, '', '')
+admin_data = ('Admin@nccsc.com', 'Admin', 'SuperSecretPassword2', 0, 0, 0, '', '')
 
 cur.execute('INSERT INTO Staff VALUES (?, ?, ?, ?, ?, ?, ?, ?)', staff_data)
 cur.execute('INSERT INTO Admin VALUES (?, ?, ?, ?, ?, ?, ?, ?)', admin_data)
