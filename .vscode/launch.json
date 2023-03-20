@@ -12,10 +12,11 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true
-        }
+        },
+
         {
             "name": "Python3: Current File",
-            "type": "python3",
+            "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
