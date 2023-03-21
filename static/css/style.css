@@ -1,0 +1,206 @@
+
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		color: #666666;
+		font-size: 19px;
+		line-height: 1.80857;
+		font-weight: normal;
+		overflow-x: hidden;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		line-height: 1.6;
+	}
+	
+	nav {
+		background-color: red;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 99;
+		flex-direction: row;
+		align-items: center;
+		margin-bottom: 1rem;
+		padding: 1rem;
+		border: 1px solid #ccc;
+		border-radius: 0.5rem;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	nav ul.menu {
+		display: flex;
+		flex-direction: row;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	  }
+	  
+	nav ul.menu li {
+		margin: 0;
+		padding: 0;
+	}
+
+	h1 .title{
+		align-content: center;
+		justify-content: center;
+	}
+
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.button {
+		border: none;
+		background-color: inherit;
+		padding: 14px 28px;
+		font-size: 16px;
+		cursor: pointer;
+		display: inline-block;
+	  }
+
+	  .button:hover {background: #eee;}
+
+	  .login {color: white;}
+	  .legal {color: white;}
+	  .book {color: white;}
+	  .news {color: white;}
+	  .home {color: white;}
+	  .emailUs {color: black;}
+	
+	.main {
+		align-content: center;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 1rem;
+		padding: 1rem;
+		border: 1px solid #ccc;
+		border-radius: 0.5rem;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.menu {
+		display: flex;
+		justify-content: space-evenly; /* add this line */
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	  }
+
+	  .menu li {
+		margin: 0;
+		padding: 0;
+	  }
+	  
+	  .menu h1{
+		color:#fff;
+		text-align: center;
+		text-decoration: double;
+	  }
+	  .menu li a {
+		display: block;
+		padding: 1rem;
+		text-align: center;
+		text-decoration: none;
+		color: #fff;
+		font-weight: bold;
+	  }
+	
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
+	}
+	
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+	}
+	
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		border: 2px solid #ccc;
+		padding: 2rem;
+		border-radius: 1rem;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		opacity: 0;
+		transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+		background-color: white;
+		z-index: 1;
+	}
+	
+	input[type="email"],
+	input[type="password"] {
+		padding: 0.5rem;
+		margin-bottom: 1rem;
+		border-radius: 0.5rem;
+		border: 1px solid #ccc;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	
+	input[type="checkbox"] {
+		margin-bottom: 1rem;
+	}
+	
+	/* Added CSS for iFrames */
+	.product {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 1rem;
+		padding: 1rem;
+		border: 1px solid #ccc;
+		border-radius: 0.5rem;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	
+	.product li {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-bottom: 0.5rem;
+	}
+	
+	.product li iframe {
+		margin-right: 1rem;
+	}
+	
+	#cookie-consent {
+		background-color: red;
+		bottom: 0;
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: fixed;
+		width: 100%;
+		padding: 0.5rem;
+		z-index: 99;
+	  }
+	  
+	  #cookie-consent p {
+		margin: 0;
+		padding: 0.5rem;
+	  }
+	  
+	  #cookie-consent button {
+		margin-left: 1rem;
+		padding: 0.5rem 1rem;
+	  }

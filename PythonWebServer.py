@@ -6,7 +6,7 @@ from flask import Flask, request, redirect, render_template, session, url_for
 secret_key = os.urandom(24).hex()
 print(secret_key)
 
-app = Flask(__name__, template_folder='/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite')
+app = Flask(__name__,static_folder='static', template_folder='/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite/')
 app.secret_key = secret_key
 
 # database initialization
@@ -26,13 +26,13 @@ for table_name in table_names:
     print(f"{table_name} data: {table_data}")
 conn.commit()
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
         if session['is_staff']:
             return redirect(url_for('staff'))
         else:
-            return redirect(url_for('home.'))
+            return redirect(url_for('home'))
     else:
         return render_template('index.html')
 
@@ -48,7 +48,7 @@ def login():
     user = c.execute("SELECT * FROM Staff WHERE email = ? AND password = ?", (email, password)).fetchone()
 
     if user:
-        session['email'] = user[2]
+        session['email'] = user[1]
         session['is_staff'] = True
 
         now = datetime.now()
@@ -64,7 +64,7 @@ def login():
         user = c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (email, password)).fetchone()
 
         if user:
-            session['email'] = user[0]
+            session['email'] = user[0]  # should be user[1] since email is the second column in the table
             session['is_staff'] = user[7]
 
             now = datetime.now()
@@ -94,8 +94,8 @@ def login():
                            VALUES (?, ?, 1, 1)", (email, password))
             conn.commit()
             conn.close()
-            app.app_context().push()
-            return render_template('index.html', error='Invalid email or password')
+
+            return render_template('index', error='Invalid email or password')
 
 @app.route('/home')
 def home():
@@ -103,9 +103,9 @@ def home():
         username = session['username']
         c.execute("UPDATE users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
         conn.commit()
-        return render_template('home', username=username)
+        return render_template('index.html', username=username)
     else:
-        return redirect(url_for('index'))
+        return redirect(url_for('index.html'))
 
 @app.route('/staff')
 def staff():
@@ -115,6 +115,6 @@ def staff():
         conn.commit()
         return render_template('staff.html', username=username)
     else:
-        return redirect(url_for('index'))
+        return redirect(url_for('index.html'))
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

@@ -4,166 +4,25 @@
 	<title>Norwood Child Safety Council</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<style>
-	* {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-	}
-
-	body {
-		color: #666666;
-		font-size: 19px;
-		line-height: 1.80857;
-		font-weight: normal;
-		overflow-x: hidden;
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		line-height: 1.6;
-	}
-	
-	nav {
-		background-color: red;
-		position: fixed;
-		top: 0;
-		width: 100%;
-		z-index: 99;
-		flex-direction: row;
-		align-items: center;
-		margin-bottom: 1rem;
-		padding: 1rem;
-		border: 1px solid #ccc;
-		border-radius: 0.5rem;
-		width: 100%;
-		box-sizing: border-box;
-	}
-	
-	header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-	
-	.main {
-		align-content: center;
-		align-items: center;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-bottom: 1rem;
-		padding: 1rem;
-		border: 1px solid #ccc;
-		border-radius: 0.5rem;
-		width: 100%;
-		box-sizing: border-box;
-	}
-	
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 100vh;
-	}
-	
-	h1 {
-		font-size: 2.5rem;
-		margin-bottom: 1rem;
-	}
-	
-	form {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		border: 2px solid #ccc;
-		padding: 2rem;
-		border-radius: 1rem;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		opacity: 0;
-		transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-		background-color: white;
-		z-index: 1;
-	}
-	
-	input[type="email"],
-	input[type="password"] {
-		padding: 0.5rem;
-		margin-bottom: 1rem;
-		border-radius: 0.5rem;
-		border: 1px solid #ccc;
-		width: 100%;
-		box-sizing: border-box;
-	}
-	
-	input[type="checkbox"] {
-		margin-bottom: 1rem;
-	}
-	
-	/* Added CSS for iFrames */
-	.product {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-bottom: 1rem;
-		padding: 1rem;
-		border: 1px solid #ccc;
-		border-radius: 0.5rem;
-		width: 100%;
-		box-sizing: border-box;
-	}
-	
-	.product li {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		margin-bottom: 0.5rem;
-	}
-	
-	.product li iframe {
-		margin-right: 1rem;
-	}
-	
-	#cookie-consent {
-		background-color: red;
-		bottom: 0;
-		color: white;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: fixed;
-		width: 100%;
-		padding: 0.5rem;
-		z-index: 99;
-	  }
-	  
-	  #cookie-consent p {
-		margin: 0;
-		padding: 0.5rem;
-	  }
-	  
-	  #cookie-consent button {
-		margin-left: 1rem;
-		padding: 0.5rem 1rem;
-	  }
-</style>
 <body>
 	<nav>
 		  <ul class="menu">
-			<li><a id="home-button" href="index.html">Home</a></li>
-			<li><a id="News-button" href="News.html">News</a></li>
-			<li><a id="Order-button" href="Order.html">Order</a></li>
-			<li><a id="Legal-button" href="Legal.html">Legal Stuff</a></li>
-			<li><a id="staff-button" href="Staff.html">Staff</a></li>
-			<li><button type="button" id="login-button">Login</button></li>
+			<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="10%" height="5%">
+			<h1>The Norwood Child Safety Council</h1>
+			<li><a id="home-button" class="button home" href="#">Home</a></li>
+			<li><a id="News-button" class="button news" href="News.html">News</a></li>
+			<li><a id="Book-button" class="button book" href="Book.html">Book a meeting</a></li>
+			<li><a id="Legal-button" class="button legal" href="Legal.html">Legal Stuff</a></li>
+			<li><a id="staff-button" class="button staff" href="Staff.html">Staff</a></li>
+			<li><button id="login-button" class="button login">Login</button></li>
 		  </ul>
 		</div>
 	  </nav>	  
 	<div class="container">
-		<iframe src="NCSC_Logo.png" width="100%" height="100%" sandbox='allow-scripts allow-same-origin'>The Norwood Child Safety Council</iframe>
-		<h1>The Norwood Child Safety Council</h1>
+		<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="50%" height="60%">
 		<p id="message">Login to continue, if your account is not found, it will be created</p>
 		<div class="login-container">
 		<form method="post" action="/login">
@@ -184,14 +43,14 @@
 	</div>
 	<main>
         <section class="hero">
-            <h1>The Norwood Child Safety Council</h1>
+            <h1 id="title">The Norwood Child Safety Council</h1>
             <p>Get in touch with us</p>
-            <button id="email-form">Click here</button>
+            <button id="email-form" class="button emailUs">Click here</button>
         </section>
         <section class="featured">
             <h2>News</h2>
             <div class="product">
-                <h3>Article 1</h3>
+                <h3>Recent News</h3>
                 <ul>
                     <li>Donation of $10,000 received from local business</li>
 					<li>New safety video released for parents and children</li>
@@ -251,51 +110,6 @@
 
 	<p id="message" style="display: none">Login to continue, if your account doesn't exist, it will be created</p>
 </body>
-<script>
-	const showPasswordCheckbox = document.getElementById("show-password");
-	const passwordInput = document.getElementById("password");
-	const StaffAccess = document.getElementById("staff");
-	
-	showPasswordCheckbox.addEventListener("change", function() {
-		if (this.checked) {
-			passwordInput.setAttribute("type", "text");
-		} else {
-			passwordInput.setAttribute("type", "password");
-		}
-	});
-
-	window.onload = function() {
-		const consentPopup = document.getElementById("cookie-consent");
-		const acceptBtn = document.getElementById("accept-cookies");
-		const loginButton = document.getElementById("login-button");
-		const loginContainer = document.getElementById("login-container");
-
-		StaffAccess.style.display = "none";
-	
-		if (!localStorage.getItem("cookiesAccepted")) {
-			consentPopup.style.display = "block";
-		}
-
-		// check if the user is already logged in
-		const username = sessionStorage.getItem('username');
-		if (username) {
-			// disable the login button and replace its text with the username
-			loginButton.disabled = true;
-			loginButton.textContent = username;
-		}
-	
-		acceptBtn.addEventListener("click", function() {
-			localStorage.setItem("cookiesAccepted", true);
-			consentPopup.style.display = "none";
-		});
-	
-		loginButton.addEventListener("click", function() {
-			const form = document.querySelector("form");
-			form.style.opacity = 1;
-		  });
-		  
-	}
-</script>
 <footer>
 	<p>&copy; 2023 by CyberForceTeam. All Rights Reserved.</p>
 </footer>
