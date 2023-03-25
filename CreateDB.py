@@ -12,25 +12,25 @@ cur = conn.cursor()
 cur.execute('''CREATE TABLE IF NOT EXISTS Staff
                 (email text, username text, password text, successful_logins integer,
                 unsuccessful_logins integer, total_login_attempts integer, last_login_ip_address text,
-                last_login_date text)''')
+                last_login_date text, address text, phone text, is_staff boolean)''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Admin
                 (email text, username text, password text, successful_logins integer,
                 unsuccessful_logins integer, total_login_attempts integer, last_login_ip_address text,
-                last_login_date text)''')
+                last_login_date text, address text, phone text, is_staff boolean)''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS users
-                (username text, password text, email text, last_login text,
-                 last_login_ip text, unsuccessful_logins integer,
-                 successful_logins integer, total_login_attempts integer, address text)''')
+                (email text, username text, password text, successful_logins integer,
+                unsuccessful_logins integer, total_login_attempts integer, last_login_ip_address text,
+                last_login_date text, address text, phone text, is_staff boolean)''')
 
 
 # insert data into the tables
-staff_data = ('Staff@ncsc.com', 'Staff', 'SuperSecretPassword', 0, 0, 0, '', '')
-admin_data = ('Admin@nccsc.com', 'Admin', 'SuperSecretPassword2', 0, 0, 0, '', '')
+staff_data = ('Staff@ncsc.com', 'Staff', 'SuperSecretPassword', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 1)
+admin_data = ('Admin@ncsc.com', 'Admin', 'SuperSecretPassword2', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 0)
 
-cur.execute('INSERT INTO Staff VALUES (?, ?, ?, ?, ?, ?, ?, ?)', staff_data)
-cur.execute('INSERT INTO Admin VALUES (?, ?, ?, ?, ?, ?, ?, ?)', admin_data)
+cur.execute('INSERT INTO Staff VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', staff_data)
+cur.execute('INSERT INTO Admin VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', admin_data)
 
 # commit the changes and close the connection
 conn.commit()

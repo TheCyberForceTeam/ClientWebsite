@@ -20,23 +20,57 @@
 			<li><button id="login-button" class="button login">Login</button></li>
 		  </ul>
 		</div>
-	  </nav>	  
+	  </nav>	
+	<div class="forms">
 	<div class="container">
 		<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="50%" height="60%">
 		<div class="login-container">
 		<form method="post" action="/login">
+			<button id="close-button" class="button close">Close Form</button>
 			<label for="email">Email:</label>
 			<input type="email" id="email-address" name="email" required>
 			<label for="password">Password:</label>
 			<input type="password" id="login-password" name="password" required>
 			<label for="show-password">
 			<input type="checkbox" id="show-password"> Show Password </label>
+			<button id="signup-button" class="button Signup">Sign-Up</button>
 			<a href="/reset_password">Forgot Password?</a>
-			<p id="message">Login to continue, if your account is not found, it will be created</p>
-			<input type="submit" value="Submit">
+			<input type="submit" value="Submit" class="button Submit">
 		</form>
 	</div>
 	</div>
+	<div class="signup-form">
+		<form id="signup" method="post" action="/signup">
+			<button id="close-button" class="button close">Close Form</button>
+			<label for="name">Full Name:</label>
+			<input type="text" id="name" name="FullName" required>
+			<label for="email">Email:</label>
+			<input type="email" id="email-address" name="email" required>
+			<label for="password">Password:</label>
+			<input type="password" id="login-password" name="password" required>
+			<label for="show-password">
+			<input type="checkbox" id="show-password"> Show Password </label>
+			<input type="submit" value="Submit" class="button Submit">
+		</form>
+	</div>
+	</div>  
+	<div class="emailUS-form">
+		<form id="emailUS" method="post" action="/emailus">
+			<button id="close-button" class="button close">Close Form</button>
+			<label for="name">Full Name:</label>
+			<input type="text" id="name" name="FullName" required>
+			<label for="email">Email:</label>
+			<input type="email" id="email-address" name="email" required>
+			<label for="message">Message:</label>
+			<input type="text" id="message" name="message" required>
+			<form action="mailto:thecyberforceteam@gmail.com" method="post" enctype="text/plain">
+			<label for="email-body">Body</label>
+			<textarea id="email-body" name="email-body"></textarea>
+			<input type="submit" value="Submit" class="button Submit">
+				</form>
+			</div>
+		</div>
+
 	<div id="cookie-consent" style="display: show;">
 		<p>By using this website, you agree to our use of cookies to remember your last entry details.</p>
 		<button id="accept-cookies">Accept Cookies</button>
@@ -83,20 +117,6 @@
             </div>
         </section>
     </main>
-
-
-	<div id="email-model" class="model">
-		<div class="model-content">
-			<span class="close">&times;</span>
-			<form action="mailto:thecyberforceteam@gmail.com" method="post" enctype="text/plain">
-				<label for="email-body">Body</label>
-				<textarea id="email-body" name="email-body"></textarea>
-				<button type="submit">Send</button>
-			</form>
-		</div>
-	</div>
-
-	<p id="message" style="display: none">Login to continue, if your account doesn't exist, it will be created</p>
 </body>
 <footer>
 	<p>&copy; 2023 by CyberForceTeam. All Rights Reserved.</p>

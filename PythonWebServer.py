@@ -40,7 +40,6 @@ def index():
 def login():
     email = request.form['email']
     password = request.form['password']
-
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
 
@@ -129,9 +128,17 @@ def book():
 def legal():
     return app.send_static_file('Legal.html')
 
-@app.route('/reset_password')
-def reset_password():
-    return app.send_static_file('reset_password.html')
+@app.route('/signup', methods=['POST'])
+def signup():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    email = request.form['email']
+    password = request.form['password']
+    c.execute("INSERT INTO users (username, password, total_login_attempts, unsuccessful_logins) \
+                VALUES (?, ?, 1, 1)", (email, password))
+    conn.commit()
+    conn.close()
+    return render_template('index')
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

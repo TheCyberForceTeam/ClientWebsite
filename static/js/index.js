@@ -27,6 +27,23 @@ document.addEventListener("DOMContentLoaded", function() {
     const passwordInput = document.getElementById("login-password");
     const loginButton = document.getElementById("login-button");
     const loginContainer = document.getElementById("login-container");
+    const closeBtn = document.getElementById("close-button");
+    const signupButton = document.getElementById("signup-button");
+    const signupForm = document.querySelector("signup");
+
+    closeBtn.addEventListener("click", function() {
+        loginContainer.style.opacity = 0;
+    });
+
+    signupButton.addEventListener("click", function() {
+        loginContainer.style.opacity = 0;
+        signupForm.style.opacity = 1;
+    });
+
+    //closeSignup.addEventListener("click", function() { });
+
+
+
 
     showPasswordCheckbox.addEventListener("change", function() {
         if (this.checked) {
