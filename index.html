@@ -15,7 +15,7 @@
 			<li><a id="home-button" class="button home" href="#">Home</a></li>
 			<li><a id="News-button" class="button news" href="News.html">News</a></li>
 			<li><a id="Book-button" class="button book" href="Book.html">Book a meeting</a></li>
-			<li><a id="Legal-button" class="button legal" href="Legal.html">Legal Stuff</a></li>
+			<li><a id="Legal-button" class="button legal" href="Legal.html">Legal</a></li>
 			<li><a id="staff-button" class="button staff" href="Staff.html">Staff</a></li>
 			<li><button id="login-button" class="button login">Login</button></li>
 		  </ul>
@@ -23,16 +23,16 @@
 	  </nav>	  
 	<div class="container">
 		<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="50%" height="60%">
-		<p id="message">Login to continue, if your account is not found, it will be created</p>
 		<div class="login-container">
 		<form method="post" action="/login">
 			<label for="email">Email:</label>
-			<input type="email" id="email" name="email" required>
+			<input type="email" id="email-address" name="email" required>
 			<label for="password">Password:</label>
-			<input type="password" id="password" name="password" required>
+			<input type="password" id="login-password" name="password" required>
 			<label for="show-password">
-				<input type="checkbox" id="show-password"> Show Password
-			</label>
+			<input type="checkbox" id="show-password"> Show Password </label>
+			<a href="/reset_password">Forgot Password?</a>
+			<p id="message">Login to continue, if your account is not found, it will be created</p>
 			<input type="submit" value="Submit">
 		</form>
 	</div>
@@ -84,21 +84,9 @@
         </section>
     </main>
 
-	<form id="login-form">
-		<label for="email">Email</label>
-		<input type="email" id="email" name="email" required>
 
-		<label for="password">Password</label>
-		<input type="password" id="password" name="password" required>
-
-		<input type="checkbox" id="remember-me" name="remember-me">
-		<label for="remember-me">Remember me</label>
-
-		<button type="submit">Login</button>
-	</form>
-
-	<div id="email-modal" class="modal">
-		<div class="modal-content">
+	<div id="email-model" class="model">
+		<div class="model-content">
 			<span class="close">&times;</span>
 			<form action="mailto:thecyberforceteam@gmail.com" method="post" enctype="text/plain">
 				<label for="email-body">Body</label>

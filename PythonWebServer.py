@@ -116,5 +116,22 @@ def staff():
         return render_template('staff.html', username=username)
     else:
         return redirect(url_for('index.html'))
+    
+@app.route('/News.html')
+def news():
+    return app.send_static_file('News.html')
+
+@app.route('/Book.html')
+def book():
+    return app.send_static_file('Book.html')
+
+@app.route('/Legal.html')
+def legal():
+    return app.send_static_file('Legal.html')
+
+@app.route('/reset_password')
+def reset_password():
+    return app.send_static_file('reset_password.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
