@@ -4,6 +4,9 @@ import os
 from flask import Flask, request, redirect, render_template, session, url_for
 from flask_mail import Mail, Message
 import time
+import csv
+import matplotlib.pyplot as plt
+import io
 
 
 secret_key = os.urandom(24).hex()
@@ -41,7 +44,7 @@ def index():
         else:
             return redirect(url_for('home'))
     else:
-        return render_template('index.html')
+        return redirect(url_for('home'))
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -57,10 +60,9 @@ def login():
         session['email'] = user[1]
         session['is_staff'] = True
 
-        now = datetime.now()
         ip = request.remote_addr
-        c.execute("UPDATE Staff SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
-                   total_login_attempts = 0 WHERE email = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
+        c.execute("UPDATE Staff SET last_login_date = ?, last_login_ip_address = ?, successful_logins = successful_logins + 1, \
+                   total_login_attempts = 0 WHERE email = ?", (current_time, ip, email))
         conn.commit()
         conn.close()
 
@@ -73,10 +75,9 @@ def login():
             session['email'] = user[0]  # should be user[1] since email is the second column in the table
             session['is_staff'] = user[7]
 
-            now = datetime.now()
             ip = request.remote_addr
-            c.execute("UPDATE Users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
-                       total_login_attempts = 0 WHERE username = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
+            c.execute("UPDATE Users SET last_login_date = ?, last_login_ip_address = ?, successful_logins = successful_logins + 1, \
+                       total_login_attempts = 0 WHERE username = ?", (current_time, ip, email))
             conn.commit()
             conn.close()
 
@@ -101,7 +102,12 @@ def login():
             conn.commit()
             conn.close()
 
-            return render_template('index', error='Invalid email or password')
+            return redirect(url_for('failed_login.html'))
+        
+@app.route('/failed_login.html')
+def failed_login():
+    time.sleep(5)
+    return render_template('index.html')
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -159,7 +165,7 @@ def email():
 
 @app.route('/emailsent.html')
 def emailsent():
-    return redirect(url_for('/'))
+    return redirect(url_for('index'))
     
 
 @app.route('/home')
@@ -169,20 +175,81 @@ def home():
         c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
         conn.commit()
         return render_template('index.html', username=username)
+    elif 'username' in session and not session['is_staff']:
+        username = session['username']
+        return render_template('index.html', username=username)
     else:
-        return redirect(url_for('index.html'))
-
+        return render_template('index.html', username='Guest')
+    
 @app.route('/staff')
 def staff():
     if 'username' in session and session['is_staff']:
         username = session['username']
         c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
         conn.commit()
-        return render_template('staff.html', username=username)
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute('SELECT * FROM table')
+        data = c.fetchall()
+        c.close()
+        conn.close()
     else:
-        return redirect(url_for('index.html'))
+        return redirect(url_for('index'))
+
+@app.route('/download')
+def download():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM table')
+    data = c.fetchall()
+    c.close()
+    conn.close()
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['ID', 'Name', 'Age'])
+    writer.writerows(data)
+    output.seek(0)
+    return output.getvalue()
+
+@app.route('/add', methods=['POST'])
+def add():
+    name = request.form['name']
+    age = request.form['age']
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('INSERT INTO table (Name, Age) VALUES (?, ?)', (name, age))
+    conn.commit()
+    c.close()
+    conn.close()
+    return redirect(url_for('staff'))
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM table WHERE ID = ?', (id,))
+    conn.commit()
+    c.close()
+    conn.close()
+    return redirect(url_for('staff'))
+
+@app.route('/createbarchart', methods=['POST'])
+def create_bar_chart():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('SELECT Name, Age FROM table')
+    data = c.fetchall()
+    c.close()
+    conn.close()
+    names = [x[0] for x in data]
+    ages = [x[1] for x in data]
+    plt.bar(names, ages)
+    plt.savefig('static/bar_chart.png')
+    plt.close()
+    return redirect(url_for('staff'), data=data, bar_chart='static/bar_chart.png')
+
     
-@app.route('/News.html')
+@app.route('/News.html', methods=['GET', 'POST'])
 def news():
     return app.send_static_file('News.html')
 

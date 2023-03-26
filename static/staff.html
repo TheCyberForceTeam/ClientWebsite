@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Page</title>
+</head>
+<body>
+	<h1>Admin Page</h1>
+	<iframe src="{{ url_for('staff') }}" name="admin_iframe" height="500" width="800"></iframe>
+
+	<!-- Admin Dashboard HTML code -->
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Admin Dashboard</title>
+	</head>
+	<body>
+		<h2>Admin Dashboard</h2>
+		<a href="{{ url_for('view_db') }}" target="_blank"><button>View Database</button></a>
+		<a href="{{ url_for('download_csv') }}" target="_blank"><button>Download as CSV</button></a>
+		<form method="POST" action="{{ url_for('create_chart') }}" target="_blank">
+			<select name="column">
+				{% for col in columns %}
+				<option value="{{ col }}">{{ col }}</option>
+				{% endfor %}
+			</select>
+			<input type="submit" value="Create Bar Chart">
+		</form>
+		<form method="POST" action="{{ url_for('add_entry') }}" target="_blank">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required>
+			<label for="age">Age:</label>
+			<input type="number" id="age" name="age" required>
+			<input type="submit" value="Add Entry">
+		</form>
+		<form method="POST" action="{{ url_for('delete_entry') }}" target="_blank">
+			<label for="id">ID:</label>
+			<input type="number" id="id" name="id" required>
+			<input type="submit" value="Delete Entry">
+		</form>
+	</body>
+	</html>
+</body>
+</html>

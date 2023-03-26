@@ -128,11 +128,17 @@
 		margin-bottom: 1rem;
 	}
 
-	/*.login-container,
-	.signup-form,
+	.login-container{
+		display: none;
+  	}
+
+	.signup-form {
+		display: none;
+  	}
+
 	.emailUS-form {
   		display: none;
-	}*/
+	}
 	
 	.form {
 		display: flex;

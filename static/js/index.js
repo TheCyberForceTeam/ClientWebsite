@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
     //Staff access button
     const staffAccess = document.getElementById("Staff-button");
     //Close buttons
-    const closeBtns = document.querySelectorAll(".close-button");
+    const closeBtnLogin = document.querySelectorAll("close-button-login");
+    const closeBtnSignup = document.querySelectorAll("close-button-signup");
+    const closeBtnEmailUs = document.querySelectorAll("close-button-emailUS");
+    const closeBtns = [...closeBtnLogin, ...closeBtnSignup, ...closeBtnEmailUs]
     //Email us button
     const emailUSbutton = document.getElementById("email-form");
     const emailform = document.querySelector(".emailUS-form");
@@ -27,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //--------------------------------------------------------------------------------
     // Define a function to close a modal by setting opacity and pointerEvents to 0 and none respectively
     const closeModal = (modal) => {
-      modal.style.opacity = 0;
+      modal.style.display = "none";
       modal.style.pointerEvents = "none";
     };
     
@@ -45,10 +48,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //--------------------------------------------------------------------------------
+    // Hide the staff access button by default
+    staffAccess.style.display = "none";
+
+    //--------------------------------------------------------------------------------
     // If a username is saved in session storage, disable the login button and display the username
     if (username) {
         loginButton.disabled = true;
         loginButton.textContent = username;
+        loginButton.innerHTML = username;
+        loginButton.innerText = username;
       }
 
     //--------------------------------------------------------------------------------
@@ -56,6 +65,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (username === "staff") {
         staffAccess.style.display = "block";
     }
+
+    //--------------------------------------------------------------------------------
+    // If the innerhtml of the login button is "Staff" or "Admin", set the staffAccess.style.display = "block"
+    if (loginButton.innerHTML === "Staff" || loginButton.innerHTML === "Admin") {
+        staffAccess.style.display = "block";
+    }
+
+    //--------------------------------------------------------------------------------
+    // Add an event listener to the staff access button to redirect the browser to the staff access page
+    staffAccess.addEventListener("click", () => {
+        window.location.href = "/staff";
+    });
   
     //--------------------------------------------------------------------------------
     // Add an event listener to the show password checkbox to show/hide the password IN THE LOGIN FORM
@@ -71,27 +92,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add an event listener to the login button to show the login form on click
     loginButton.addEventListener("click", () => {
       const form = document.querySelector("form");
-      form.style.opacity = 1;
+      loginContainer.style.display = "block";
     });
   
     //--------------------------------------------------------------------------------
     // Add an event listener to the signup button to close the login container and show the signup form on click
     signupButton.addEventListener("click", () => {
       closeModal(loginContainer);
-      signupForm.style.opacity = 1;
+      signupForm.style.display = "block";
       signupForm.style.pointerEvents = "auto";
     });
 
     //--------------------------------------------------------------------------------
     // Add an event listener to the email us button to show the email form
     emailUSbutton.addEventListener("click", () => {
-      emailform.style.opacity = 1;
-      emailform.style.pointerEvents = "auto";
+        emailform.style.display = "block";
+        emailform.style.pointerEvents = "auto";
     });
- 
-    //--------------------------------------------------------------------------------
-    // Hide the staff access button by default
-    staffAccess.style.display = "none";
   
     //--------------------------------------------------------------------------------
     // Add event listeners to all close buttons to close their parent modals when clicked
