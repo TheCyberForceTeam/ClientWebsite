@@ -19,7 +19,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Admin
                 unsuccessful_logins integer, total_login_attempts integer, last_login_ip_address text,
                 last_login_date text, address text, phone text, is_staff boolean)''')
 
-cur.execute('''CREATE TABLE IF NOT EXISTS users
+cur.execute('''CREATE TABLE IF NOT EXISTS Users
                 (email text, username text, password text, successful_logins integer,
                 unsuccessful_logins integer, total_login_attempts integer, last_login_ip_address text,
                 last_login_date text, address text, phone text, is_staff boolean)''')
@@ -28,9 +28,11 @@ cur.execute('''CREATE TABLE IF NOT EXISTS users
 # insert data into the tables
 staff_data = ('Staff@ncsc.com', 'Staff', 'SuperSecretPassword', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 1)
 admin_data = ('Admin@ncsc.com', 'Admin', 'SuperSecretPassword2', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 0)
+user_data = ('user@ncsc.com', 'User', 'Password', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 0)
 
 cur.execute('INSERT INTO Staff VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', staff_data)
 cur.execute('INSERT INTO Admin VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', admin_data)
+cur.execute('INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', user_data)
 
 # commit the changes and close the connection
 conn.commit()

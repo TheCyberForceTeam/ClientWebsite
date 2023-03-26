@@ -2,22 +2,29 @@ import sqlite3
 from datetime import datetime
 import os
 from flask import Flask, request, redirect, render_template, session, url_for
+from flask_mail import Mail, Message
+import time
+
 
 secret_key = os.urandom(24).hex()
 print(secret_key)
 
-app = Flask(__name__,static_folder='static', template_folder='/Users/nathanbrown-bennett/Programming/Web Server/ClientWebsite/')
+app = Flask(__name__,static_folder='static', template_folder='/users/nathanbrown-bennett/Programming/Web Server/ClientWebsite/')
 app.secret_key = secret_key
+current_time = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+#Emailus setup
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'thecyberforceteam@gmail.com'
+app.config['MAIL_PASSWORD'] = 'pyumtfhyertwwniw'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 # database initialization
 conn = sqlite3.connect('database.db')
 c = conn.cursor()
-c.execute("SELECT * FROM Staff")
-staff_data = c.fetchall()
-print(staff_data)
-c.execute("SELECT * FROM Admin")
-Admin_data = c.fetchall()
-print(Admin_data)
 c.execute("SELECT name FROM sqlite_master WHERE type='table';")
 table_names = [row[0] for row in c.fetchall()]
 for table_name in table_names:
@@ -38,8 +45,8 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    email = request.form['email']
-    password = request.form['password']
+    email = request.form['Email']
+    password = request.form['Password']
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
 
@@ -59,8 +66,8 @@ def login():
 
         return redirect(url_for('staff'))
     else:
-        # Check if the user exists in the users table
-        user = c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (email, password)).fetchone()
+        # Check if the user exists in the Users table
+        user = c.execute("SELECT * FROM Users WHERE username = ? AND password = ?", (email, password)).fetchone()
 
         if user:
             session['email'] = user[0]  # should be user[1] since email is the second column in the table
@@ -68,7 +75,7 @@ def login():
 
             now = datetime.now()
             ip = request.remote_addr
-            c.execute("UPDATE users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
+            c.execute("UPDATE Users SET last_login = ?, last_login_ip = ?, successful_logins = successful_logins + 1, \
                        total_login_attempts = 0 WHERE username = ?", (now.strftime("%Y-%m-%d %H:%M:%S"), ip, email))
             conn.commit()
             conn.close()
@@ -89,18 +96,77 @@ def login():
                 if user[5] + 1 >= 5:
                     return redirect(url_for('reset_password', email=email))
             else:
-                c.execute("INSERT INTO users (username, password, total_login_attempts, unsuccessful_logins) \
+                c.execute("INSERT INTO Users (username, password, total_login_attempts, unsuccessful_logins) \
                            VALUES (?, ?, 1, 1)", (email, password))
             conn.commit()
             conn.close()
 
             return render_template('index', error='Invalid email or password')
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    email = request.form['Email']
+    password = request.form['Password']
+
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+
+    # Check if the user already exists in the database
+    user = c.execute("SELECT * FROM Users WHERE email = ?", (email,)).fetchone()
+
+    if user:
+        # If the user already exists, reset their password and send them an email with their new password
+        new_password = 'SuperSecretPassword3'  # Replace with a randomly generated password
+        c.execute("UPDATE Users SET password = ?, total_login_attempts = 0, last_login_ip_address = ?, last_login_date = ? WHERE email = ?", (new_password, request.remote_addr, current_time, email))
+        conn.commit()
+        conn.close()
+
+        msg = Message('Password Reset', sender='thecyberforceteam@gmail.com', recipients=[email])
+        msg.body = f'Your password has been reset to {new_password}. Please use this new password to log in.'
+        mail.send(msg)
+
+        return redirect(url_for('index'))
+    else:
+        # If the user doesn't exist, create a new user in the database
+        successful_logins = 0
+        unsuccessful_logins = 0
+        total_login_attempts = 0
+        last_login_ip_address = request.remote_addr
+        last_login_date = current_time
+        address = ''
+        phone = ''
+        is_staff = 0
+        user_data = (email, email, password, successful_logins, unsuccessful_logins, total_login_attempts,
+                     last_login_ip_address, last_login_date, address, phone, is_staff)
+
+        c.execute("INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", user_data)
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('index'))
+
+@app.route('/emailus', methods=['POST'])
+def email():
+    sender_name = request.form['Name']
+    sender_email = request.form['Email']
+    subject = request.form.get('Subject', '')
+    message = request.form['Message']
+    print(f"Sender Name: {sender_name}, Sender Email: {sender_email}, Subject: {subject}, Message: {message}")
+    msg = Message(subject=subject, sender=(sender_name, sender_email), recipients=["thecyberforceteam@gmail.com"])
+    msg.body = message
+    mail.send(msg)
+    return app.send_static_file('emailsent.html')
+
+@app.route('/emailsent.html')
+def emailsent():
+    return redirect(url_for('/'))
+    
+
 @app.route('/home')
 def home():
     if 'username' in session and not session['is_staff']:
         username = session['username']
-        c.execute("UPDATE users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
+        c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
         conn.commit()
         return render_template('index.html', username=username)
     else:
@@ -110,7 +176,7 @@ def home():
 def staff():
     if 'username' in session and session['is_staff']:
         username = session['username']
-        c.execute("UPDATE users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
+        c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
         conn.commit()
         return render_template('staff.html', username=username)
     else:
@@ -127,18 +193,6 @@ def book():
 @app.route('/Legal.html')
 def legal():
     return app.send_static_file('Legal.html')
-
-@app.route('/signup', methods=['POST'])
-def signup():
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    email = request.form['email']
-    password = request.form['password']
-    c.execute("INSERT INTO users (username, password, total_login_attempts, unsuccessful_logins) \
-                VALUES (?, ?, 1, 1)", (email, password))
-    conn.commit()
-    conn.close()
-    return render_template('index')
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

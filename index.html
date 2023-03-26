@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Norwood Child Safety Council</title>
 	<meta charset="UTF-8">
@@ -12,12 +12,12 @@
 		  <ul class="menu">
 			<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="10%" height="5%">
 			<h1>The Norwood Child Safety Council</h1>
-			<li><a id="home-button" class="button home" href="#">Home</a></li>
+			<li><a id="Home-button" class="button home" href="/">Home</a></li>
 			<li><a id="News-button" class="button news" href="News.html">News</a></li>
 			<li><a id="Book-button" class="button book" href="Book.html">Book a meeting</a></li>
 			<li><a id="Legal-button" class="button legal" href="Legal.html">Legal</a></li>
-			<li><a id="staff-button" class="button staff" href="Staff.html">Staff</a></li>
-			<li><button id="login-button" class="button login">Login</button></li>
+			<li><a id="Staff-button" class="button staff" href="Staff.html">Staff</a></li>
+			<li><button id="Login-button" class="button login">Login</button></li>
 		  </ul>
 		</div>
 	  </nav>	
@@ -25,51 +25,50 @@
 	<div class="container">
 		<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="50%" height="60%">
 		<div class="login-container">
-		<form method="post" action="/login">
-			<button id="close-button" class="button close">Close Form</button>
+			<form method="POST" action="{{ url_for('login') }}">
+			<button id="close-button-login" class="button close">Close Form</button>
 			<label for="email">Email:</label>
-			<input type="email" id="email-address" name="email" required>
+			<input type="email" id="email-address-login" name="Email" required>
 			<label for="password">Password:</label>
-			<input type="password" id="login-password" name="password" required>
+			<input type="password" id="login-password" name="Password" required>
 			<label for="show-password">
-			<input type="checkbox" id="show-password"> Show Password </label>
+			<input type="checkbox" id="show-password-login"> Show Password </label>
 			<button id="signup-button" class="button Signup">Sign-Up</button>
 			<a href="/reset_password">Forgot Password?</a>
-			<input type="submit" value="Submit" class="button Submit">
+			<button type="submit" value="Submit" class="button Submit" onclick="loginUser()">Submit</button>
 		</form>
 	</div>
 	</div>
 	<div class="signup-form">
-		<form id="signup" method="post" action="/signup">
-			<button id="close-button" class="button close">Close Form</button>
+		<form method="POST" action="{{ url_for('signup') }}">
+			<button id="close-button-signup" class="button close">Close Form</button>
 			<label for="name">Full Name:</label>
-			<input type="text" id="name" name="FullName" required>
+			<input type="text" id="name-signup" name="Name" required>
 			<label for="email">Email:</label>
-			<input type="email" id="email-address" name="email" required>
+			<input type="email" id="email-address-signup" name="Email" required>
 			<label for="password">Password:</label>
-			<input type="password" id="login-password" name="password" required>
+			<input type="password" id="signup-password" name="Password" required>
 			<label for="show-password">
-			<input type="checkbox" id="show-password"> Show Password </label>
-			<input type="submit" value="Submit" class="button Submit">
+			<input type="checkbox" id="show-password-signup"> Show Password </label>
+			<button type="submit" value="Submit" class="button Submit" onclick="signupUser()">Submit</button>
 		</form>
 	</div>
 	</div>  
 	<div class="emailUS-form">
-		<form id="emailUS" method="post" action="/emailus">
-			<button id="close-button" class="button close">Close Form</button>
-			<label for="name">Full Name:</label>
-			<input type="text" id="name" name="FullName" required>
-			<label for="email">Email:</label>
-			<input type="email" id="email-address" name="email" required>
-			<label for="message">Message:</label>
-			<input type="text" id="message" name="message" required>
-			<form action="mailto:thecyberforceteam@gmail.com" method="post" enctype="text/plain">
-			<label for="email-body">Body</label>
-			<textarea id="email-body" name="email-body"></textarea>
-			<input type="submit" value="Submit" class="button Submit">
-				</form>
-			</div>
-		</div>
+		<form method="POST" action="{{ url_for('email') }}">
+		  <button id="close-button-emailUS" class="button close">Close Form</button>
+		  <label for="name">Full Name:</label>
+		  <input type="text" id="name-emailUS" name="Name" required>
+		  <label for="email">Email:</label>
+		  <input type="email" id="email-address-emailUS" name="Email" required>
+		  <label for="subject">Subject:</label>
+		  <input type="text" name="Subject" placeholder="Subject" required>
+		  <label for="message">Message:</label>
+		  <input type="text" id="message" name="Message" required>
+		  <input type="submit" value="Submit" class="button Submit">
+		</form>
+	</div>
+	</div>
 
 	<div id="cookie-consent" style="display: show;">
 		<p>By using this website, you agree to our use of cookies to remember your last entry details.</p>
@@ -79,7 +78,7 @@
         <section class="hero">
             <h1 id="title">The Norwood Child Safety Council</h1>
             <p>Get in touch with us</p>
-            <button id="email-form" class="button emailUs">Click here</button>
+            <button id="email-form" class="button emailUs">Click Here</button>
         </section>
         <section class="featured">
             <h2>News</h2>

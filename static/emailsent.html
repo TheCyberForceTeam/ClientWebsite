@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Email Sent</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+      window.onload = function() {
+        var count = 5;
+        var timer = setInterval(function() {
+          if (count <= 0) {
+            clearInterval(timer);
+            document.getElementById("countdown").innerHTML = "";
+            document.getElementById("redirect").click();
+          } else {
+            document.getElementById("countdown").innerHTML = count;
+            count--;
+          }
+        }, 1000);
+      };
+    </script>
+  </head>
+  <body>
+    <p>Your email has been sent.</p>
+    <p>You will be redirected in <span id="countdown">5</span> seconds, otherwise <a id="redirect" href="index.html">click here</a>.</p>
+  </body>
+</html>

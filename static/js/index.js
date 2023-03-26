@@ -1,61 +1,105 @@
-window.onload = function() {
+// Wait for the DOM to load before executing the code inside the function
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Define variables to reference DOM elements
+    //Cookie consent popup
     const consentPopup = document.getElementById("cookie-consent");
     const acceptBtn = document.getElementById("accept-cookies");
+    //Login form
+    const username = sessionStorage.getItem("username");
+    const password = sessionStorage.getItem("password");
+    const loginButton = document.getElementById("Login-button");
+    const passwordInput = document.getElementById("login-password");
+    const showPasswordLogin = document.getElementById("show-password-login");
+    const loginContainer = document.querySelector(".login-container");
+    //Signup form
+    const signupButton = document.getElementById("signup-button");
+    const signupForm = document.querySelector(".signup-form");
+    const showPasswordSignup = document.getElementById("show-password-signup");
+    //Staff access button
+    const staffAccess = document.getElementById("Staff-button");
+    //Close buttons
+    const closeBtns = document.querySelectorAll(".close-button");
+    //Email us button
+    const emailUSbutton = document.getElementById("email-form");
+    const emailform = document.querySelector(".emailUS-form");
+    
+    //--------------------------------------------------------------------------------
+    // Define a function to close a modal by setting opacity and pointerEvents to 0 and none respectively
+    const closeModal = (modal) => {
+      modal.style.opacity = 0;
+      modal.style.pointerEvents = "none";
+    };
+    
+    //--------------------------------------------------------------------------------
+    // Add an event listener to the accept cookies button to save cookiesAccepted in local storage and close the consent popup
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem("cookiesAccepted", true);
+      consentPopup.style.display = "none";
+    });
 
+    //--------------------------------------------------------------------------------
+    // If cookies have not been accepted, show the cookie consent popup
     if (!localStorage.getItem("cookiesAccepted")) {
-        consentPopup.style.display = "block";
+      consentPopup.style.display = "block";
     }
-    // check if the user is already logged in
-    const username = sessionStorage.getItem('username');
+
+    //--------------------------------------------------------------------------------
+    // If a username is saved in session storage, disable the login button and display the username
     if (username) {
-        // disable the login button and replace its text with the username
         loginButton.disabled = true;
         loginButton.textContent = username;
+      }
+
+    //--------------------------------------------------------------------------------
+    // If the user is logged in, show the staff access button
+    if (username === "staff") {
+        staffAccess.style.display = "block";
     }
-
-    acceptBtn.addEventListener("click", function() {
-        localStorage.setItem("cookiesAccepted", true);
-        consentPopup.style.display = "none";
+  
+    //--------------------------------------------------------------------------------
+    // Add an event listener to the show password checkbox to show/hide the password IN THE LOGIN FORM
+    showPasswordLogin.addEventListener("change", () => {
+        passwordInput.type = showPasswordLogin.checked ? "text" : "password";
     });
-      
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    const StaffAccess = document.getElementById("staff-button");
-    StaffAccess.style.display = "none";
-    const showPasswordCheckbox = document.querySelector("input[type=checkbox]");
-    const passwordInput = document.getElementById("login-password");
-    const loginButton = document.getElementById("login-button");
-    const loginContainer = document.getElementById("login-container");
-    const closeBtn = document.getElementById("close-button");
-    const signupButton = document.getElementById("signup-button");
-    const signupForm = document.querySelector("signup");
-
-    closeBtn.addEventListener("click", function() {
-        loginContainer.style.opacity = 0;
-    });
-
-    signupButton.addEventListener("click", function() {
-        loginContainer.style.opacity = 0;
-        signupForm.style.opacity = 1;
-    });
-
-    //closeSignup.addEventListener("click", function() { });
-
-
-
-
-    showPasswordCheckbox.addEventListener("change", function() {
-        if (this.checked) {
-            passwordInput.setAttribute("type", "text");
-        } else {
-            passwordInput.setAttribute("type", "password");
-        }
-    });
-
-    loginButton.addEventListener("click", function() {
-        const form = document.querySelector("form");
-        form.style.opacity = 1;
+    // Add an event listener to the show password checkbox to show/hide the password IN THE SIGNUP FORM
+    showPasswordSignup.addEventListener("change", () => {
+        passwordInput.type = showPasswordSignup.checked ? "text" : "password";
       });
+    
+    //--------------------------------------------------------------------------------
+    // Add an event listener to the login button to show the login form on click
+    loginButton.addEventListener("click", () => {
+      const form = document.querySelector("form");
+      form.style.opacity = 1;
+    });
+  
+    //--------------------------------------------------------------------------------
+    // Add an event listener to the signup button to close the login container and show the signup form on click
+    signupButton.addEventListener("click", () => {
+      closeModal(loginContainer);
+      signupForm.style.opacity = 1;
+      signupForm.style.pointerEvents = "auto";
+    });
 
+    //--------------------------------------------------------------------------------
+    // Add an event listener to the email us button to show the email form
+    emailUSbutton.addEventListener("click", () => {
+      emailform.style.opacity = 1;
+      emailform.style.pointerEvents = "auto";
+    });
+ 
+    //--------------------------------------------------------------------------------
+    // Hide the staff access button by default
+    staffAccess.style.display = "none";
+  
+    //--------------------------------------------------------------------------------
+    // Add event listeners to all close buttons to close their parent modals when clicked
+    closeBtns.forEach((closeBtn) => {
+      closeBtn.addEventListener("click", () => {
+        closeModal(closeBtn.closest(".modal"));
+      });
+    });
+    //--------------------------------------------------------------------------------
   });
+  

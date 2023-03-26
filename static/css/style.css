@@ -71,6 +71,7 @@
 	  .book {color: white;}
 	  .news {color: white;}
 	  .home {color: white;}
+	  .staff {color: white;}
 	  .emailUs {color: black;}
 	
 	.main {
@@ -126,8 +127,14 @@
 		font-size: 2.5rem;
 		margin-bottom: 1rem;
 	}
+
+	/*.login-container,
+	.signup-form,
+	.emailUS-form {
+  		display: none;
+	}*/
 	
-	form {
+	.form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -144,14 +151,52 @@
 		z-index: 1;
 	}
 	
-	input[type="email"],
-	input[type="password"] {
+	.form label {
+		margin-bottom: 0.5rem;
+		font-size: 1.1rem;
+	}
+	
+	.form input,
+	.form textarea {
 		padding: 0.5rem;
-		margin-bottom: 1rem;
-		border-radius: 0.5rem;
+		border-radius: 0.25rem;
 		border: 1px solid #ccc;
+		margin-bottom: 1rem;
 		width: 100%;
 		box-sizing: border-box;
+	}
+	
+	.form input[type="email"],
+	.form input[type="password"] {
+		border-radius: 0.5rem;
+	}
+	
+	.form textarea {
+		height: 8rem;
+		resize: vertical;
+	}
+	
+	.form .button {
+		padding: 0.5rem 1rem;
+		background-color: #007bff;
+		color: white;
+		border: none;
+		border-radius: 0.25rem;
+		cursor: pointer;
+	}
+	
+	.form .button.close {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		background-color: transparent;
+		color: #333;
+		font-size: 1.5rem;
+		padding: 0.25rem 0.5rem;
+	}
+	
+	.form .button.close:hover {
+		color: #007bff;
 	}
 	
 	input[type="checkbox"] {
