@@ -14,6 +14,13 @@
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		line-height: 1.6;
 	}
+
+	p{
+		align-items: center;
+		justify-content: center;
+		align-content: center;
+		border: #333;
+	}
 	
 	nav {
 		background-color: red;
@@ -64,7 +71,7 @@
 		display: inline-block;
 	  }
 
-	  .button:hover {background: #eee;}
+	  .button:hover {background: black;}
 
 	  .login {color: white;}
 	  .legal {color: white;}
@@ -72,7 +79,8 @@
 	  .news {color: white;}
 	  .home {color: white;}
 	  .staff {color: white;}
-	  .emailUs {color: black;}
+	  .emailUs {color: black; align-self: center;}
+	  .emailUs:hover {background: red; color: white;}
 	
 	.main {
 		align-content: center;
@@ -86,6 +94,13 @@
 		border-radius: 0.5rem;
 		width: 100%;
 		box-sizing: border-box;
+	}
+
+	.h3{
+		align-content: center;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.menu {
@@ -122,7 +137,7 @@
 		justify-content: center;
 		height: 100vh;
 		background-image: url("/static/img/HOMEANDSCHOOLSUB_IMAGE2.jpeg");
-		animation: animateBackground 30s linear infinite;
+		animation: animateBackground 50s linear infinite;
 	}
 	
 	h1 {
@@ -259,6 +274,6 @@
 	  }
 
 	  @keyframes animateBackground {
-		from {background-position: 0 10;}
-		to {background-position: 100% 10;}
+		from {background-position: 0 0;}
+		to {background-position: 100% 0;}
 	  }
