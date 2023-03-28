@@ -27,7 +27,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Users
 
 # insert data into the tables
 staff_data = ('Staff@ncsc.com', 'Staff', 'SuperSecretPassword', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 1)
-admin_data = ('Admin@ncsc.com', 'Admin', 'SuperSecretPassword2', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 0)
+admin_data = ('Admin@ncsc.com', 'Admin', 'SuperSecretPassword2', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 1)
 user_data = ('user@ncsc.com', 'User', 'Password', 0, 0, 0, 'Hard-Coded', 'Hard-Coded','The Cyber Force Team HQ', '0123456789', 0)
 
 cur.execute('INSERT INTO Staff VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', staff_data)

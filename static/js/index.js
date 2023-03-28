@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtnLogin = document.querySelectorAll("close-button-login");
     const closeBtnSignup = document.querySelectorAll("close-button-signup");
     const closeBtnEmailUs = document.querySelectorAll("close-button-emailUS");
-    const closeBtns = [...closeBtnLogin, ...closeBtnSignup, ...closeBtnEmailUs]
     //Email us button
     const emailUSbutton = document.getElementById("email-form");
     const emailform = document.querySelector(".emailUS-form");
@@ -46,11 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!localStorage.getItem("cookiesAccepted")) {
       consentPopup.style.display = "block";
     }
-
     //--------------------------------------------------------------------------------
     // Hide the staff access button by default
     staffAccess.style.display = "none";
-
     //--------------------------------------------------------------------------------
     // If a username is saved in session storage, disable the login button and display the username
     if (username) {
@@ -59,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loginButton.innerHTML = username;
         loginButton.innerText = username;
       }
-
     //--------------------------------------------------------------------------------
     // If the user is logged in, show the staff access button
     if (username === "staff") {
@@ -93,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loginButton.addEventListener("click", () => {
       const form = document.querySelector("form");
       loginContainer.style.display = "block";
+      loginContainer.style.opacity = "1";
     });
   
     //--------------------------------------------------------------------------------
@@ -112,10 +109,29 @@ document.addEventListener('DOMContentLoaded', function() {
   
     //--------------------------------------------------------------------------------
     // Add event listeners to all close buttons to close their parent modals when clicked
-    closeBtns.forEach((closeBtn) => {
-      closeBtn.addEventListener("click", () => {
-        closeModal(closeBtn.closest(".modal"));
-      });
+    //--------------------------------------------------------------------------------
+    // Close the login container
+    closeBtnLogin.addEventListener("click", () => {
+        closeModal(loginContainer);
+        loginContainer.style.opacity = "0";
+        loginContainer.style.display = "none";
+        loginContainer.style.pointerEvents = "none";
+    });
+    //--------------------------------------------------------------------------------
+    // Close the signup form
+    closeBtnSignup.addEventListener("click", () => {
+        closeModal(signupForm);
+        signupForm.style.opacity = "0";
+        signupForm.style.display = "none";
+        signupForm.style.pointerEvents = "none";
+    });
+    //--------------------------------------------------------------------------------
+    // Close the email form
+    closeBtnEmailUs.addEventListener("click", () => {
+        closeModal(emailform);
+        emailform.style.opacity = "0";
+        emailform.style.display = "none";
+        emailform.style.pointerEvents = "none";
     });
     //--------------------------------------------------------------------------------
   });

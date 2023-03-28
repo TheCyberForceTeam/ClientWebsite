@@ -10,17 +10,22 @@
 <body>
 	<nav>
 		  <ul class="menu">
-			<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="10%" height="5%">
-			<h1>The Norwood Child Safety Council</h1>
+			<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img nav" width="10%" height="5%">
+			<h1 class="nav-title">The Norwood Child Safety Council</h1>
 			<li><a id="Home-button" class="button home" href="/">Home</a></li>
 			<li><a id="News-button" class="button news" href="News.html">News</a></li>
 			<li><a id="Book-button" class="button book" href="Book.html">Book a meeting</a></li>
 			<li><a id="Legal-button" class="button legal" href="Legal.html">Legal</a></li>
 			<li><a id="Staff-button" class="button staff" href="Staff.html">Staff</a></li>
-			<li><button id="Login-button" class="button login">Login</button></li>
+			<li><a id="Login-button" class="button login">Login</a></li>
+			<li><a id="Donate-button" class="button donate" href="https://www.paypal.com/paypalme/OfficialOMJ?country.x=GB&locale.x=en_GB">Donate</a></li>
 		  </ul>
 		</div>
 	  </nav>	
+
+		<ul class="return">
+			<a id="Leave-button" class="button leave" href="https://www.google.com">Leave this site</a>
+		</ul>
 	<div class="forms">
 	<div class="container">
 		<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="50%" height="60%">
@@ -38,7 +43,6 @@
 			<button type="submit" value="Submit" class="button Submit" onclick="loginUser()">Submit</button>
 		</form>
 	</div>
-	</div>
 	<div class="signup-form">
 		<form method="POST" action="{{ url_for('signup') }}">
 			<button id="close-button-signup" class="button close">Close Form</button>
@@ -53,7 +57,6 @@
 			<button type="submit" value="Submit" class="button Submit" onclick="signupUser()">Submit</button>
 		</form>
 	</div>
-	</div>  
 	<div class="emailUS-form">
 		<form method="POST" action="{{ url_for('email') }}">
 		  <button id="close-button-emailUS" class="button close">Close Form</button>
@@ -69,15 +72,17 @@
 		</form>
 	</div>
 	</div>
+	</div>
 
 	<div id="cookie-consent" style="display: show;">
 		<p>By using this website, you agree to our use of cookies to remember your last entry details.</p>
 		<button id="accept-cookies">Accept Cookies</button>
 	</div>
+
 	<main class="main">
         <section class="hero">
             <h1 id="title">The Norwood Child Safety Council</h1>
-            <p>Get in touch with us</p>
+            <p class="Getintouch">Get in touch with us</p>
             <button id="email-form" class="button emailUs">Click Here</button>
         </section>
         <section class="featured">

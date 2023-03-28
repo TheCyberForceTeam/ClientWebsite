@@ -2,18 +2,26 @@
 <html>
 <head>
 	<title>Admin Page</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<h1>Admin Page</h1>
-	<iframe src="{{ url_for('staff') }}" name="admin_iframe" height="500" width="800"></iframe>
-
-	<!-- Admin Dashboard HTML code -->
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<title>Admin Dashboard</title>
-	</head>
-	<body>
+	<nav>
+		<ul class="menu">
+			<h1 class="nav-title">Admin Page</h1>
+			<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img nav" width="10%" height="5%">
+			<h1 class="nav-title">The Norwood Child Safety Council</h1>
+			<li><a id="Home-button" class="button home" href="/">Home</a></li>
+			<li><a id="News-button" class="button news" href="News.html">News</a></li>
+			<li><a id="Book-button" class="button book" href="Book.html">Book a meeting</a></li>
+			<li><a id="Legal-button" class="button legal" href="Legal.html">Legal</a></li>
+			<li><a id="Staff-button" class="button staff" href="Staff.html">Staff</a></li>
+			<li><a id="Login-button" class="button login">Login</a></li>
+			<li><a id="Donate-button" class="button donate" href="https://www.paypal.com/paypalme/OfficialOMJ?country.x=GB&locale.x=en_GB">Donate</a></li>
+		  </ul>
+		</div>
+		<a href="{{ url_for('staff') }}" target="admin_iframe">Staff</a>
+	</nav>
+	<section>
 		<h2>Admin Dashboard</h2>
 		<a href="{{ url_for('view_db') }}" target="_blank"><button>View Database</button></a>
 		<a href="{{ url_for('download_csv') }}" target="_blank"><button>Download as CSV</button></a>
@@ -37,7 +45,6 @@
 			<input type="number" id="id" name="id" required>
 			<input type="submit" value="Delete Entry">
 		</form>
-	</body>
-	</html>
+	</section>
 </body>
 </html>

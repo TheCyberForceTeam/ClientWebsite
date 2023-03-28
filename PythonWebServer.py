@@ -55,32 +55,32 @@ def login():
 
     # Check if the user exists in the staff table
     user = c.execute("SELECT * FROM Staff WHERE email = ? AND password = ?", (email, password)).fetchone()
-
+    
     if user:
         session['email'] = user[1]
         session['is_staff'] = True
-
+    
         ip = request.remote_addr
         c.execute("UPDATE Staff SET last_login_date = ?, last_login_ip_address = ?, successful_logins = successful_logins + 1, \
                    total_login_attempts = 0 WHERE email = ?", (current_time, ip, email))
         conn.commit()
         conn.close()
-
+    
         return redirect(url_for('staff'))
     else:
         # Check if the user exists in the Users table
         user = c.execute("SELECT * FROM Users WHERE username = ? AND password = ?", (email, password)).fetchone()
-
+    
         if user:
-            session['email'] = user[0]  # should be user[1] since email is the second column in the table
-            session['is_staff'] = user[7]
-
+            session['email'] = user[1]
+            session['is_staff'] = False # Set to False for users
+    
             ip = request.remote_addr
             c.execute("UPDATE Users SET last_login_date = ?, last_login_ip_address = ?, successful_logins = successful_logins + 1, \
                        total_login_attempts = 0 WHERE username = ?", (current_time, ip, email))
             conn.commit()
             conn.close()
-
+    
             if user[7]:
                 return redirect(url_for('staff'))
             else:
@@ -88,7 +88,7 @@ def login():
         else:
             session.pop('email', None)
             session.pop('is_staff', None)
-
+    
             # Check if the user exists in the staff table
             user = c.execute("SELECT * FROM Staff WHERE email = ?", (email,)).fetchone()
             if user:
@@ -101,7 +101,7 @@ def login():
                            VALUES (?, ?, 1, 1)", (email, password))
             conn.commit()
             conn.close()
-
+    
             return redirect(url_for('failed_login.html'))
         
 @app.route('/failed_login.html')
@@ -200,6 +200,7 @@ def create_bar_chart():
 def staff():
     username = session['username']
     if 'username' in session and session['is_staff']:
+        username = session['username']
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
         c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
@@ -211,6 +212,7 @@ def staff():
         return render_template('staff.html', username=username, data=data)
     else:
         return render_template('index.html', username=username)
+
 
 @app.route('/download')
 def download():

@@ -15,7 +15,7 @@
 		margin: 0;
 	}
 
-	header {
+		header {
 		align-items: center;
 		background-color: #ffffff;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -49,6 +49,8 @@
 		font-size: 36px;
 		font-weight: 700;
 		margin-bottom: 20px;
+		text-align: center;
+		text-transform: uppercase;
 	}
 
 	h2 {
@@ -59,7 +61,12 @@
 	}
 
 	p {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 18px;
+		line-height: 1.5;
 		margin-bottom: 20px;
+		color: #333;
+		text-align: justify;
 	}
 
 	article:not(:last-child) {
@@ -105,14 +112,20 @@
 
 		p {
 			font-size: 14px;
+			max-width: 600px;
 			margin-bottom: 10px;
+			line-height: 1.5;
+			margin-bottom: 20px;
+			color: #333;
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 		}
 
 		button {
 			font-size: 14px;
-			padding: 12px 24px;
-		}
+
 	}
+}
 </style>
 <body>
 	<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" alt="NCSC Logo" width="200" height="200">
