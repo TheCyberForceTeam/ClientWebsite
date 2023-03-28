@@ -180,21 +180,37 @@ def home():
         return render_template('index.html', username=username)
     else:
         return render_template('index.html', username='Guest')
-    
+
+@app.route('/createbarchart', methods=['POST'])
+def create_bar_chart():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('SELECT Name, Age FROM table')
+    data = c.fetchall()
+    c.close()
+    conn.close()
+    names = [x[0] for x in data]
+    ages = [x[1] for x in data]
+    plt.bar(names, ages)
+    plt.savefig('static/bar_chart.png')
+    plt.close()
+    return redirect(url_for('staff'))
+
 @app.route('/staff')
 def staff():
+    username = session['username']
     if 'username' in session and session['is_staff']:
-        username = session['username']
-        c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
-        conn.commit()
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
+        c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
+        conn.commit()
         c.execute('SELECT * FROM table')
         data = c.fetchall()
         c.close()
         conn.close()
+        return render_template('staff.html', username=username, data=data)
     else:
-        return redirect(url_for('index'))
+        return render_template('index.html', username=username)
 
 @app.route('/download')
 def download():
@@ -232,21 +248,6 @@ def delete(id):
     c.close()
     conn.close()
     return redirect(url_for('staff'))
-
-@app.route('/createbarchart', methods=['POST'])
-def create_bar_chart():
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute('SELECT Name, Age FROM table')
-    data = c.fetchall()
-    c.close()
-    conn.close()
-    names = [x[0] for x in data]
-    ages = [x[1] for x in data]
-    plt.bar(names, ages)
-    plt.savefig('static/bar_chart.png')
-    plt.close()
-    return redirect(url_for('staff'), data=data, bar_chart='static/bar_chart.png')
 
     
 @app.route('/News.html', methods=['GET', 'POST'])

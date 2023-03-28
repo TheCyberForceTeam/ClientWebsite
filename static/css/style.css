@@ -121,6 +121,8 @@
 		align-items: center;
 		justify-content: center;
 		height: 100vh;
+		background-image: url("/static/img/HOMEANDSCHOOLSUB_IMAGE2.jpeg");
+		animation: animateBackground 30s linear infinite;
 	}
 	
 	h1 {
@@ -254,4 +256,9 @@
 	  #cookie-consent button {
 		margin-left: 1rem;
 		padding: 0.5rem 1rem;
+	  }
+
+	  @keyframes animateBackground {
+		from {background-position: 0 10;}
+		to {background-position: 100% 10;}
 	  }
