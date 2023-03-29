@@ -13,14 +13,14 @@ os.system("pip install -r requirements.txt")
 # Check for updates from GitHub
 os.system("git pull")
 
-# Check if coffee.service exists in /etc/systemd/system
-if not os.path.exists("/etc/systemd/system/coffee.service"):
-    # Copy coffee.service to /etc/systemd/system
-    shutil.copy("coffee.service", "/etc/systemd/system/")
+# Check if ncscServer.service exists in /etc/systemd/system
+if not os.path.exists("/etc/systemd/system/ncscServer.service"):
+    # Copy ncscServer.service to /etc/systemd/system
+    shutil.copy("ncscServer.service", "/etc/systemd/system/")
     print("File copied to /etc/systemd/system")
 
-    # Modify coffee.service
-    with open("/etc/systemd/system/coffee.service", "r") as f:
+    # Modify ncscServer.service
+    with open("/etc/systemd/system/ncscServer.service", "r") as f:
         service_file_contents = f.read()
 
     # Replace the directory path in WorkingDirectory and ExecStart
@@ -34,15 +34,15 @@ if not os.path.exists("/etc/systemd/system/coffee.service"):
     )
 
     # Write the modified file back to disk
-    with open("/etc/systemd/system/coffee.service", "w") as f:
+    with open("/etc/systemd/system/ncscServer.service", "w") as f:
         f.write(service_file_contents)
 
-    # Reload systemd daemon and enable/start coffee.service
+    # Reload systemd daemon and enable/start ncscServer.service
     os.system("sudo systemctl daemon-reload")
-    os.system("sudo systemctl enable coffee.service")
-    os.system("sudo systemctl start coffee.service")
+    os.system("sudo systemctl enable ncscServer.service")
+    os.system("sudo systemctl start ncscServer.service")
 
-    print("Modified and started coffee.service")
+    print("Modified and started ncscServer.service")
 else:
     print("Configured to start on boot")
 

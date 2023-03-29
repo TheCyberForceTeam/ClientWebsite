@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
     //Staff access button
     const staffAccess = document.getElementById("Staff-button");
     //Close buttons
-    const closeBtnLogin = document.querySelectorAll("close-button-login");
-    const closeBtnSignup = document.querySelectorAll("close-button-signup");
-    const closeBtnEmailUs = document.querySelectorAll("close-button-emailUS");
+    const closeBtnLogin = document.getElementById("close-button-login");
+    const closeBtnSignup = document.getElementById("close-button-signup");
+    const closeBtnEmailUs = document.getElementById("close-button-emailUS");
     //Email us button
     const emailUSbutton = document.getElementById("email-form");
     const emailform = document.querySelector(".emailUS-form");
@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const form = document.querySelector("form");
       loginContainer.style.display = "block";
       loginContainer.style.opacity = "1";
+      signupForm.style.pointerEvents = "auto";
     });
   
     //--------------------------------------------------------------------------------

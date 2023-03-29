@@ -25,6 +25,11 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
+#Log.py initialisation so that each time a user logs in, it is recorded in the log file with their username, time of login and IP address
+def log(username, ip): 
+    with open('log.txt', 'a') as file:
+        file.write(f"{username} logged in at {current_time} from IP address {ip}\n")
+
 # database initialization
 conn = sqlite3.connect('database.db')
 c = conn.cursor()
@@ -55,7 +60,6 @@ def login():
 
     # Check if the user exists in the staff table
     user = c.execute("SELECT * FROM Staff WHERE email = ? AND password = ?", (email, password)).fetchone()
-    
     if user:
         session['email'] = user[1]
         session['is_staff'] = True
@@ -63,6 +67,7 @@ def login():
         ip = request.remote_addr
         c.execute("UPDATE Staff SET last_login_date = ?, last_login_ip_address = ?, successful_logins = successful_logins + 1, \
                    total_login_attempts = 0 WHERE email = ?", (current_time, ip, email))
+        log(email, ip)
         conn.commit()
         conn.close()
     
@@ -78,6 +83,7 @@ def login():
             ip = request.remote_addr
             c.execute("UPDATE Users SET last_login_date = ?, last_login_ip_address = ?, successful_logins = successful_logins + 1, \
                        total_login_attempts = 0 WHERE username = ?", (current_time, ip, email))
+            log(email, ip)
             conn.commit()
             conn.close()
     
@@ -88,17 +94,20 @@ def login():
         else:
             session.pop('email', None)
             session.pop('is_staff', None)
+            ip = request.remote_addr
     
             # Check if the user exists in the staff table
             user = c.execute("SELECT * FROM Staff WHERE email = ?", (email,)).fetchone()
             if user:
                 c.execute("UPDATE Staff SET total_login_attempts = total_login_attempts + 1, unsuccessful_logins = unsuccessful_logins + 1 \
-                           WHERE email = ?", (email,))
+                           WHERE email = ? + WHERE last_login_ip_address = ?", (email,ip))
+                log(email, ip)
                 if user[5] + 1 >= 5:
                     return redirect(url_for('reset_password', email=email))
             else:
-                c.execute("INSERT INTO Users (username, password, total_login_attempts, unsuccessful_logins) \
-                           VALUES (?, ?, 1, 1)", (email, password))
+                c.execute("INSERT INTO Users (username, password, total_login_attempts, unsuccessful_logins, last_login_ip_address) \
+                           VALUES (?, ?, 1, 1)", (email, password, ip))
+                log(email, ip)
             conn.commit()
             conn.close()
     
@@ -113,6 +122,9 @@ def failed_login():
 def signup():
     email = request.form['Email']
     password = request.form['Password']
+    username = session["username"]
+    
+    ip = request.remote_addr
 
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
@@ -123,7 +135,8 @@ def signup():
     if user:
         # If the user already exists, reset their password and send them an email with their new password
         new_password = 'SuperSecretPassword3'  # Replace with a randomly generated password
-        c.execute("UPDATE Users SET password = ?, total_login_attempts = 0, last_login_ip_address = ?, last_login_date = ? WHERE email = ?", (new_password, request.remote_addr, current_time, email))
+        log(email, ip)
+        c.execute("UPDATE Users SET password = ?, total_login_attempts = 0, last_login_ip_address = ?, last_login_date = ? WHERE email = ?, WHERE username = ?", (new_password, request.remote_addr, current_time, email, username))
         conn.commit()
         conn.close()
 
@@ -134,6 +147,7 @@ def signup():
         return redirect(url_for('index'))
     else:
         # If the user doesn't exist, create a new user in the database
+        username = session["username"]
         successful_logins = 0
         unsuccessful_logins = 0
         total_login_attempts = 0
@@ -142,8 +156,9 @@ def signup():
         address = ''
         phone = ''
         is_staff = 0
-        user_data = (email, email, password, successful_logins, unsuccessful_logins, total_login_attempts,
+        user_data = (email, username, password, successful_logins, unsuccessful_logins, total_login_attempts,
                      last_login_ip_address, last_login_date, address, phone, is_staff)
+        log(username, ip)
 
         c.execute("INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", user_data)
         conn.commit()
@@ -170,13 +185,12 @@ def emailsent():
 
 @app.route('/home')
 def home():
+    ip = request.remote_addr
     if 'username' in session and not session['is_staff']:
         username = session['username']
-        c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
+        c.execute("UPDATE Users SET last_login_ip_address = ?, last_login_date = ? WHERE email = ?, WHERE username = ?", (request.remote_addr, current_time, email, username))
+        log(username, ip)
         conn.commit()
-        return render_template('index.html', username=username)
-    elif 'username' in session and not session['is_staff']:
-        username = session['username']
         return render_template('index.html', username=username)
     else:
         return render_template('index.html', username='Guest')
@@ -196,20 +210,22 @@ def create_bar_chart():
     plt.close()
     return redirect(url_for('staff'))
 
-@app.route('/staff')
+@app.route('/staff',methods=['GET', 'POST'])
 def staff():
     username = session['username']
     if 'username' in session and session['is_staff']:
         username = session['username']
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
+        ip = request.remote_addr
         c.execute("UPDATE Users SET successful_logins = successful_logins + 1 WHERE username = ?", (username,))
+        log(username, ip)
         conn.commit()
         c.execute('SELECT * FROM table')
         data = c.fetchall()
         c.close()
         conn.close()
-        return render_template('staff.html', username=username, data=data)
+        return render_template('Staff.html', username=username, data=data)
     else:
         return render_template('index.html', username=username)
 
@@ -256,13 +272,13 @@ def delete(id):
 def news():
     return app.send_static_file('News.html')
 
-@app.route('/Book.html')
+@app.route('/Book.html',methods=['GET', 'POST'])
 def book():
     return app.send_static_file('Book.html')
 
-@app.route('/Legal.html')
+@app.route('/Legal.html',methods=['GET', 'POST'])
 def legal():
     return app.send_static_file('Legal.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(host='0.0.0.0', port=5000, debug=False)

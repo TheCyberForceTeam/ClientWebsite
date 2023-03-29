@@ -1,149 +1,208 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+  }
+  
+  body {
+	color: #666666;
+	font-size: 19px;
+	line-height: 1.80857;
+	font-weight: normal;
+	overflow-x: hidden;
+	font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+	line-height: 1.6;
+  }
+  
+  p {
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+  }
+  
+  nav {
+	background-color: red;
+	position: fixed;
+	opacity: 0.8;
+	top: 0;
+	width: 100%;
+	z-index: 99;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	width: 100%;
+	box-sizing: border-box;
+	justify-content: space-between;
+  }
+  
+  nav:hover {
+	opacity: 1;
+  }
+  
+  nav ul.menu {
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+  }
+  
+  nav ul.menu li {
+	margin: 0;
+	padding: 0;
+  }
+  
+  h1 .button {
+	align-content: center;
+	justify-content: center;
+  }
+  
+  .imgnav {
+	opacity: 0;
+  }
+  
+  .imgnav:hover {
+	opacity: 1;
+  }
+  
+  .button {
+	border: none;
+	background-color: inherit;
+	padding: 14px 28px;
+	font-size: 16px;
+	cursor: pointer;
+	display: inline-block;
+  }
+  
+  .button:hover {
+	background: black;
+  }
+  
+  .login {
+	color: white;
+  }
+  
+  .legal {
+	color: white;
+  }
+  
+  .book {
+	color: white;
+  }
+  
+  .news {
+	color: white;
+  }
+  
+  .home {
+	color: white;
+  }
+  
+  .staff {
+	color: white;
+  }
+  
+  .donate {
+	color: white;
+  }
+  
+  .emailUs {
+	color: black;
+	align-self: center;
+	align-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .emailUs:hover {
+	background: red;
+	color: white;
+  }
+  
+  .leave {
+	color: white;
+  }
+  
+  .close:hover {
+	background-color: black;
+	color: white;
+  }
+  
+  .Signup {
+	color: black;
+  }
+  
+  .Signup:hover {
+	background: red;
+	color: white;
+  }
+  
+  .Submit {
+	color: black;
+  }
+  
+  .Submit:hover {
+	background: red;
+	color: white;
+  }
+  
+  .hero {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 25vh;
+	animation: animateBackground 50s linear infinite;
+  }
 
-	* {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-	}
-
-	body {
-		color: #666666;
-		font-size: 19px;
-		line-height: 1.80857;
-		font-weight: normal;
-		overflow-x: hidden;
-		font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-		line-height: 1.6;
-	}
-
-	p{
-		align-items: center;
-		justify-content: center;
-		align-content: center;
-		border: #333;
-	}
-	
-	nav {
-		background-color: red;
-		position: fixed;
-		opacity: 0.8;
-		top: 0;
-		width: 100%;
-		z-index: 99;
-		flex-direction: row;
-		align-items: center;
-		margin-bottom: 1rem;
-		padding: 1rem;
-		border-radius: 0.5rem;
-		width: 100%;
-		box-sizing: border-box;
-		justify-content: space-between;
-	}
-
-	nav:hover{
-		opacity: 1;
-	}
-	nav ul.menu {
-		display: flex;
-		flex-direction: row;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	  }
-	  
-	nav ul.menu li {
-		margin: 0;
-		padding: 0;
-	}
-
-	h1 .button{
-		align-content: center;
-		justify-content: center;
-	}
-
-	.button {
-		border: none;
-		background-color: inherit;
-		padding: 14px 28px;
-		font-size: 16px;
-		cursor: pointer;
-		display: inline-block;
-	  }
-
-	  .button:hover {background: black;}
-
-	  .login {color: white; }
-	  .legal {color: white;}
-	  .book {color: white;}
-	  .news {color: white;}
-	  .home {color: white;}
-	  .staff {color: white;}
-	  .donate {color: white;} 
-	  .emailUs {color: black; align-self: center; align-content: center; align-items: center; display: flex; flex-direction: column;}
-	  .emailUs:hover {background: red; color: white;}
-	  .leave{color: white;}
-	  .close:hover {background-color: black; color: white;}
-	  .Signup {color: black;}
-	  .Signup:hover {background: red; color: white;}
-	  .Submit{color: black;}
-	  .Submit:hover {background: red; color: white;}
-
-	.hero{
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 25vh;
-		animation: animateBackground 50s linear infinite;
-	}
-
-	.main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-bottom: 1rem;
-		padding: 1rem;
-		border: 1px solid #ccc;
-		border-radius: 0.5rem;
-		width: 100%;
-		box-sizing: border-box;
-		background-image: url("");
-	}
-	.return {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		position: fixed;
-		left: 10px;
-		top: 50%;
-		transform: translateY(-50%);
-		z-index: 9999;
-		background-color: white;
-		border-radius: 0.5rem;
-		padding: 10px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	  }
-	  
-	  .return a {
-		text-decoration: none;
-		color: black;
-		font-weight: bold;
-		font-size: 1.2rem;
-		padding: 5px 10px;
-	  }
-	  
-	  .return a:hover {
-		background-color: black;
-		color: white;
-		border-radius: 0.5rem;
-	  }
-
-	.h3{
-		align-content: center;
-		align-items: center;
-		display: flex;
-		flex-direction: column;
-	}
-
+  .main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 0.5rem;
+	width: 100%;
+	box-sizing: border-box;
+	background-image: url("");
+  }
+  
+  .main h2 {
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+	text-align: center;
+  }
+  
+  .main p {
+	font-size: 1.2rem;
+	margin-bottom: 1rem;
+	text-align: justify;
+	line-height: 1.5;
+  }
+  
+  .main ul {
+	list-style-type: disc;
+	margin-left: 2rem;
+	margin-bottom: 1rem;
+  }
+  
+  .main li {
+	margin-bottom: 0.5rem;
+  }
+  
+  .main a {
+	color: #0077cc;
+	text-decoration: none;
+  }
+  
+  .main a:hover {
+	text-decoration: underline;
+  }  
+  
 	.menu {
 		display: flex;
 		justify-content: space-evenly; /* add this line */
@@ -198,6 +257,7 @@
 		opacity: 0;
 		display: none;
 	}
+
 	.signup-form {
 		display: flex;
 		flex-direction: column;
