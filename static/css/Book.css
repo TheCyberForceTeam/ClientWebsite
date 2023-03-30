@@ -21,6 +21,104 @@ nav {
     justify-content: space-between;
 }
 
+button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1.5rem;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkred;
+}
+
+.button {
+border: none;
+background-color: inherit;
+padding: 14px 28px;
+font-size: 16px;
+cursor: pointer;
+display: inline-block;
+}
+
+.button:hover {
+background: black;
+}
+
+.login {
+color: white;
+}
+
+.legal {
+color: white;
+}
+
+.book {
+color: white;
+}
+
+.news {
+color: white;
+}
+
+.home {
+color: white;
+}
+
+.staff {
+color: white;
+}
+
+.donate {
+color: white;
+}
+
+.emailUs {
+color: black;
+align-self: center;
+align-content: center;
+align-items: center;
+display: flex;
+flex-direction: column;
+}
+
+.emailUs:hover {
+background: red;
+color: white;
+}
+
+.leave {
+color: white;
+}
+
+.close:hover {
+background-color: black;
+color: white;
+}
+
+.Signup {
+color: black;
+}
+
+.Signup:hover {
+background: red;
+color: white;
+}
+
+.Submit {
+color: black;
+}
+
+.Submit:hover {
+background: red;
+color: white;
+}
+
+
 .menu {
     display: flex;
     justify-content: space-evenly; /* add this line */
