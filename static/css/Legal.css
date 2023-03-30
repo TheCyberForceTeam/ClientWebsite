@@ -6,8 +6,24 @@
 
 body {
     font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
     margin: 0;
     padding: 0;
+}
+header {
+    background-color: #8B0000;
+    color: #FFF;
+    padding: 20px;
+}
+h1 {
+    font-size: 32px;
+    margin: 0;
+}
+.container {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 0 20px;
 }
 
 nav {
@@ -48,10 +64,6 @@ nav {
     top: -50px;
   }
 
-  .container{
-    height: -10vh;
-  }
-  
   .menu h1{
     color:#fff;
     text-align: center;
@@ -82,58 +94,6 @@ nav ul.menu li {
     padding: 0;
 }
 
-h1 .button{
-    align-content: center;
-    justify-content: center;
-}
-
-h2{
-    align-content: center;
-    justify-content: center;
-}
-
-h1{
-    align-content: center;
-    justify-content: center;
-}
-
-h3{
-    align-content: center;
-    justify-content: center;
-}
-
-.button {
-    border: none;
-    background-color: inherit;
-    padding: 14px 28px;
-    font-size: 16px;
-    cursor: pointer;
-    display: inline-block;
-  }
-
-.button:hover {background: black;}
-
-.login {color: white; }
-.legal {color: white;}
-.book {color: white;}
-.news {color: white;}
-.home {color: white;}
-.staff {color: white;}
-.donate {color: white;} 
-
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    width: 100%;
-    box-sizing: border-box;
-}
-
 header {
     background-color: red;
     color: white;
@@ -142,10 +102,7 @@ header {
 }
 
 main {
-    padding: 1rem;
-    height: -50vh;
-    align-items: center;
-    align-content: center;
+    padding: 10rem;
 }
 
 form {
@@ -260,34 +217,6 @@ button:hover {
 	background: red;
 	color: white;
   }
-
-.product {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    margin-bottom: 1rem;
-    padding: 10rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    width: 100%;
-    box-sizing: border-box;
-    opacity: 1;
-    background-color: white;
-    height: -50vh;
-}
-
-.product li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.product li iframe {
-    margin-right: 1rem;
-}
-
 
 footer {
     background-color: #f0f0f0;
