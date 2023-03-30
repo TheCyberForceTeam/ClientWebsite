@@ -9,7 +9,7 @@
 </head>
 <body>
 	<nav>
-		  <ul class="menu">
+		<ul class="menu">
 			<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="imgnav" width="10%" height="5%">
 			<h1 class="nav-title">The Norwood Child Safety Council</h1>
 			<li><a id="Home-button" class="button home" href="/">Home</a></li>
@@ -17,62 +17,63 @@
 			<li><a id="Book-button" class="button book" href="Book.html">Book a meeting</a></li>
 			<li><a id="Legal-button" class="button legal" href="Legal.html">Legal</a></li>
 			<li><a id="Staff-button" class="button staff" href="Staff.html">Staff</a></li>
-			<li><a id="Login-button" class="button login">Login</a></li>
+			<li><a id="Login-button" class="button login" href="#">Login</a></li>
 			<li><a id="Donate-button" class="button donate" href="https://www.paypal.com/paypalme/OfficialOMJ?country.x=GB&locale.x=en_GB">Donate</a></li>
-		  </ul>
-		</div>
-	  </nav>	
-
-		<ul class="return">
-			<a id="Leave-button" class="button leave" href="https://www.google.com">Leave this site</a>
 		</ul>
-		
+	</nav>
+
+	<ul class="return">
+		<a id="Leave-button" class="button leave" href="https://www.google.com">Leave this site</a>
+	</ul>
+
 	<div class="forms">
-	<div class="container">
-		<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="50%" height="60%">
-		<div class="login-container">
-			<form method="POST" action="{{ url_for('login') }}">
-			<button id="close-button-login" class="button close">Close Form</button>
-			<label for="email">Email:</label>
-			<input type="email" id="email-address-login" name="Email" required>
-			<label for="password">Password:</label>
-			<input type="password" id="login-password" name="Password" required>
-			<label for="show-password">
-			<input type="checkbox" id="show-password-login"> Show Password </label>
-			<button id="signup-button" class="button Signup">Sign-Up</button>
-			<a href="/reset_password">Forgot Password?</a>
-			<button type="submit" value="Submit" class="button Submit" onclick="loginUser()">Submit</button>
-		</form>
-	</div>
-	<div class="signup-form">
-		<form method="POST" action="{{ url_for('signup') }}">
-			<button id="close-button-signup" class="button close">Close Form</button>
-			<label for="name">Full Name:</label>
-			<input type="text" id="name-signup" name="Name" required>
-			<label for="email">Email:</label>
-			<input type="email" id="email-address-signup" name="Email" required>
-			<label for="password">Password:</label>
-			<input type="password" id="signup-password" name="Password" required>
-			<label for="show-password">
-			<input type="checkbox" id="show-password-signup"> Show Password </label>
-			<button type="submit" value="Submit" class="button Submit" onclick="signupUser()">Submit</button>
-		</form>
-	</div>
-	<div class="emailUS-form">
-		<form method="POST" action="{{ url_for('email') }}">
-		  <button id="close-button-emailUS" class="button close">Close Form</button>
-		  <label for="name">Full Name:</label>
-		  <input type="text" id="name-emailUS" name="Name" required>
-		  <label for="email">Email:</label>
-		  <input type="email" id="email-address-emailUS" name="Email" required>
-		  <label for="subject">Subject:</label>
-		  <input type="text" name="Subject" placeholder="Subject" required>
-		  <label for="message">Message:</label>
-		  <input type="text" id="message" name="Message" required>
-		  <input type="submit" value="Submit" class="button Submit">
-		</form>
-	</div>
-	</div>
+		<div class="container">
+			<img src="{{url_for('static', filename='img/NCSC_Logo.png')}}" class="img header" width="50%" height="60%">
+			<div class="login-container">
+				<form method="POST" action="{{ url_for('login') }}">
+					<button id="close-button-login" class="button close">Close Form</button>
+					<label for="Email">Email:</label>
+					<input type="email" name="Email" id="Email" placeholder="Your Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+					<label for="login-password">Password:</label>
+					<input type="password" id="login-password" name="Password" required>
+					<label for="show-password-login">
+						<input type="checkbox" id="show-password-login"> Show Password
+					</label>
+					<button type="button" class="button Signup" onclick="showSignupForm()">Sign-Up</button>
+					<a href="/reset_password">Forgot Password?</a>
+					<button type="submit" value="Submit" class="button Submit" onclick="loginUser()">Submit</button>
+				</form>
+			</div>
+			<div class="signup-form">
+				<form method="POST" action="{{ url_for('signup') }}">
+					<button id="close-button-signup" class="button close">Close Form</button>
+					<label for="name">Create Username:</label>
+					<input type="text" id="name-signup" name="SignupUsername" required>
+					<label for="email-address-signup">Email:</label>
+					<input type="email" id="email-address-signup" name="SignupEmail" required>
+					<label for="signup-password">Password:</label>
+					<input type="password" id="signup-password" name="SignupPassword" required>
+					<label for="show-password-signup">
+						<input type="checkbox" id="show-password-signup"> Show Password
+					</label>
+					<button type="button" class="button Submit" onclick="submitSignupForm()">Submit</button>
+				</form>
+			</div>
+			<div class="emailUS-form">
+				<form method="POST" action="{{ url_for('email') }}">
+					<button id="close-button-emailUS" class="button close">Close Form</button>
+					<label for="name-emailUS">Full Name:</label>
+					<input type="text" id="name-emailUS" name="UsernameEmailUS" required>
+					<label for="email-address-emailUS">Email:</label>
+					<input type="email" id="email-address-emailUS" name="EmailusEmail" required>
+					<label for="Subject">Subject:</label>
+					<input type="text" name="Subject" placeholder="Subject" required>
+					<label for="message">Message:</label>
+					<input type="text" id="message" name="Message" required>
+					<input type="submit" value="Submit" class="button Submit">
+				</form>
+			</div>
+		</div>
 	</div>
 
 	<div id="cookie-consent" style="display: show;">

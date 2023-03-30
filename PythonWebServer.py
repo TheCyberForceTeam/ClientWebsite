@@ -120,9 +120,9 @@ def failed_login():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    email = request.form['Email']
-    password = request.form['Password']
-    username = session["username"]
+    email = request.form['SignupEmail']
+    password = request.form['SignupPassword']
+    username = session["SignupUsername"]
     
     ip = request.remote_addr
 
@@ -168,8 +168,8 @@ def signup():
 
 @app.route('/emailus', methods=['POST'])
 def email():
-    sender_name = request.form['Name']
-    sender_email = request.form['Email']
+    sender_name = request.form['UsernameEmailUS']
+    sender_email = request.form['EmailusEmail']
     subject = request.form.get('Subject', '')
     message = request.form['Message']
     print(f"Sender Name: {sender_name}, Sender Email: {sender_email}, Subject: {subject}, Message: {message}")
