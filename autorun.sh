@@ -13,4 +13,4 @@ git pull
 python3 autorun.py
 
 # Start uWSGI server
-uwsgi --http :8080 --wsgi-file PythonWebServer.py
+uwsgi --http :8080 --wsgi-file PythonWebServer.py --buffer-size 65536

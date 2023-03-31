@@ -11,7 +11,7 @@ import io
 secret_key = os.urandom(24).hex()
 print(secret_key)
 
-app = Flask(__name__,static_folder='static', template_folder='/users/nathanbrown-bennett/Programming/Web Server/ClientWebsite/')
+app = Flask(__name__,static_url_path='', static_folder='static', template_folder='/users/nathanbrown-bennett/Programming/Web Server/ClientWebsite/')
 app.secret_key = secret_key
 current_time = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
@@ -271,8 +271,15 @@ def delete(id):
 def news():
     return app.send_static_file('News.html')
 
-@app.route('/Book.html',methods=['GET', 'POST'])
+@app.route('/Book.html', methods=['GET', 'POST'])
 def book():
+    if request.method == 'POST':
+        email = request.form['email']
+        date = request.form['date']
+        time = request.form['time']
+        with open("appointments.txt", "a") as appointments:
+            appointments.write(f"{email},{date},{time}\n")
+        return app.send_static_file('Book.html')
     return app.send_static_file('Book.html')
 
 @app.route('/Legal.html',methods=['GET', 'POST'])

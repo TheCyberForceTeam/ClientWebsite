@@ -47,4 +47,4 @@ else:
     print("Configured to start on boot")
 
 # Start uWSGI server
-os.system("uwsgi --http :8080 --wsgi-file " + python_web_server_path)
+os.system("uwsgi --http :8080 --wsgi-file " + python_web_server_path +" --buffer-size 65536")
